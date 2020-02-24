@@ -1,0 +1,52 @@
+table {
+    width: 1000px; /* Ширина таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    padding: 5px;
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+}
+th{
+    text-align: center;
+    padding: 3px;
+}
+td{
+    text-align: center;
+    padding: 3px;
+}
+
+.my_radio:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+.my_radio:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #ffa500;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+form{
+    width: 700px;
+    margin: auto;
+    padding: 5px;
+    border-collapse: collapse;
+    top: calc(50% - 500);
+    left: calc(50% - 500);
+}
+
