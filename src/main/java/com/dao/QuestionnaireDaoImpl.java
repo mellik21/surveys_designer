@@ -49,17 +49,7 @@ public class QuestionnaireDaoImpl implements QuestionnaireDao {
     @Override
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(getById(id)); //questionnaire deleting
-        // List<Question> questions = getQuestions(id);
-
-/*
-        Query newQuery = session.createQuery("from Answer a, Question q where question_id =:id");
-        newQuery.setParameter("id",id);
-
-        Query query = session.createQuery("delete from Question where questionnare_id =:id");
-        query.setParameter("id",id);
-
-*/
+        session.delete(getById(id));
     }
 
     @Override

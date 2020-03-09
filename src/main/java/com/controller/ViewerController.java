@@ -21,30 +21,32 @@ import java.util.Map;
 @Controller
 public class ViewerController {
     private QuestionnaireService questionnaireService;
+
     @Autowired
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
 
-    @RequestMapping(value="/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/view", method = RequestMethod.GET)
     public ModelAndView viewQuestionnaire(@ModelAttribute("questionnaireId") int questionnaireId, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
         Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
-        Map<Question, List<Answer>>map = questionnaireService.getQuestionnaireInfo(questionnaireId);
-        modelAndView.addObject("map",map);
-        modelAndView.addObject("title",questionnaire.getTitle());
+        Map<Question, List<Answer>> map = questionnaireService.getQuestionnaireInfo(questionnaireId);
+        modelAndView.addObject("map", map);
+        modelAndView.addObject("title", questionnaire.getTitle());
+        modelAndView.addObject("description", questionnaire.getDescription());
         return modelAndView;
     }
 
-    @RequestMapping(value="/view", method = RequestMethod.POST)
+    @RequestMapping(value = "/view", method = RequestMethod.POST)
     public ModelAndView getAnswers() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/dashboard");
         return modelAndView;
     }
 
-    @RequestMapping(value="/view_answers", method = RequestMethod.GET)
+    @RequestMapping(value = "/view_answers", method = RequestMethod.GET)
     public ModelAndView deleteQuestionnaire(@ModelAttribute("questionnaireId") int questionnaireId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view_answers");
@@ -56,16 +58,7 @@ public class ViewerController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/edit", method = RequestMethod.GET)
-        public ModelAndView editQuestionnaire(@ModelAttribute("q") int questionnaireId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("edit");
-        Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
-        Map<Question, List<Answer>>map = questionnaireService.getQuestionnaireInfo(questionnaireId);
-        modelAndView.addObject("map",map);
-        modelAndView.addObject("title",questionnaire.getTitle());
-        return modelAndView;
-    }
+
 
 
 }

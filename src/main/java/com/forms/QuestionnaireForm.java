@@ -8,6 +8,7 @@ import java.util.*;
 
 public class QuestionnaireForm {
     private String title;
+    private String description;
     private Map<Question,List<Answer>> map = new HashMap<>();
     public QuestionnaireForm(){
     }
@@ -51,5 +52,13 @@ public class QuestionnaireForm {
 
     public void setMap(Map<Question, List<Answer>> map) {
         this.map = map;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

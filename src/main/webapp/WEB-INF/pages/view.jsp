@@ -26,7 +26,7 @@
     <div class="container-login100">
         <div class="wrap-login100">
             <div class="login100-form-title">${title}</div>
-
+            <div class="login100-form-title">${description}</div>
             <form method="post" id="formId">
                 <div class="questions" style="margin-left: 10%">
                     <% int i = 0; %>
@@ -47,7 +47,7 @@
                     </c:forEach>
                 </div>
 
-                <div class="container-login100-form-btn" style="align-content: center">
+                <div class="container-login100-form-btn ">
 
                     <button class="login100-form-btn" type="submit" value="$checkUser">
                         Отправить

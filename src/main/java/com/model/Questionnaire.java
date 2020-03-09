@@ -21,16 +21,12 @@ public class Questionnaire {
     public Questionnaire() {
 
     }
-    public Questionnaire(String title, int user_id, int size, String description) {
+    public Questionnaire(String title, String description, int user_id, int size) {
         super();
         this.title=title;
         this.user_id=user_id;
         this.size=size;
         this.description = description;
-    }
-
-    public String toString() {
-        return this.title+" "+this.user_id+" "+this.size;
     }
 
     public int getId() {
@@ -78,5 +74,12 @@ public class Questionnaire {
     }
     public int getNumberOfAnswers(){
        return numberOfAnswers;
+    }
+
+
+
+    @Override
+    public String toString(){
+        return id+" "+title+" "+user_id;
     }
 }

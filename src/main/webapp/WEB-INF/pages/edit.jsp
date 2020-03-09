@@ -1,89 +1,72 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
-    <link href="<c:url value="/res/img/v6.png"/>" rel="icon" type="image/png"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://fonts.googleapis.com/css?family=Roboto:400,300|Raleway:300,400,900,700italic,700,300,600">
-    <link href="<c:url value="/res/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
-    <link href="<c:url value="/res/css/style.css"/>" rel="stylesheet" type="text/css"/>
-    <link href="<c:url value="/res/css/dashboard.css"/>" rel="stylesheet" type="text/css"/>
-    <script src="res/js/scripts.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Home page</title>
 
+    <link rel="stylesheet" type="text/css" href="res/css/homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="res/js/scripts.js"></script>
 </head>
 <body>
-<div class="loader"></div>
-<div id="myDiv">
-    <div class="header-dogo">
-        <div class="bg-color-dogo">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        </button>
-                        <a class="navbar-brand" href="<c:url value="/"/>">Na<span class="logo-dec">stya</span></a>
-                    </div>
-                    <ul class="navbar-nav navbar-right">
-                        <li><a href="<c:url value="/dashboard"/>"><i class="fa fa-th-list" aria-hidden="true"></i> Мои опросы</a></li>
-                        <li><a href="<c:url value="/create_form"/>"> Создать опрос</a></li>
-                        <li class="active"><a href="<c:url value="/"/>"><i class="fa fa-sign-out" aria-hidden="true"></i>Выход</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
+<div class="topbar">
+    <a href="<c:url value="/dashboard"/>">Questionnaire editing</a>
 </div>
 
-<h2>Questionnaire editing</h2>
+<input type="button" class="bal" value="Создать опрос" onClick='location.href="/designer/create_form"'>
 
-<form method="post" id="formId">
-    <label for="title">Questionnaire title: </label>
-    <input id="title" name="title" type="text" value="${title}">
-    <div class="new-question">
-        <div class="name-question">
-            <label for="name-question">Название вопроса</label>
-            <input type="text" id="name-question">
+<div class="block">
+    <form method="post" id="formId">
+        <label>Questionnaire ID: ${questionnaire.id} </label>
+        <label for="title">Questionnaire title: </label>
+        <input id="title" name="title" type="text" value="${questionnaire.title}">
+        <label for="description">Description: </label>
+        <input id="description" name="description" type="text" value="${questionnaire.description}">
+        <div class="new-question">
+            <div class="name-question">
+                <label for="name-question">Название вопроса</label>
+                <input type="text" id="name-question">
+            </div>
+            <div class="type-question">
+                <label for="typeQuestion"> Тип вопроса</label>
+                <select id="typeQuestion">
+                    <option>Текстовый</option>
+                    <option>Один из многих</option>
+                    <option>Многие из многих</option>
+                </select>
+            </div>
         </div>
-        <div class="type-question">
-            <label for="typeQuestion"> Тип вопроса</label>
-            <select id="typeQuestion">
-                <option>Текстовый</option>
-                <option>Один из многих</option>
-                <option>Многие из многих</option>
-            </select>
+        <div class="add-question">
+            <button onclick="addQuestion()" type="button">Добавить вопрос</button>
         </div>
-    </div>
-    <div class="add-question">
-        <button onclick="addQuestion()" type="button">Добавить вопрос</button>
-    </div>
 
-    <div id="questions">
-        <c:forEach items="${map.entrySet()}" var="pair">
+        <div id="questions">
+            <c:forEach items="${map.entrySet()}" var="pair">
+                <p><input type="text" value=" ${pair.getKey().name}"></p>
+                <% int i = 0; %>
 
-            <p><input type="text" value=" ${pair.getKey().name}"></p>
-            <% int i = 0; %>
-            <c:forEach items="${pair.getValue()}" var="answer">
-                <c:if test="${pair.getKey().type == 1}">
-                    <p><input type="radio" name="answer_<%=i%>">
-                        <input type="text" value="  ${answer.name}"></p>
-                </c:if>
-                <c:if test="${pair.getKey().type == 2}">
-                    <p><input type="checkbox" name="answer_<%=i%>"><input type="text" value=" ${answer.name}"></p>
-                </c:if>
+                <c:forEach items="${pair.getValue()}" var="answer">
+
+                    <c:if test="${pair.getKey().type == 1}">
+
+                        <p><input type="radio" name="answer_<%=i%>">
+                            <input type="text" value="  ${answer.name}"></p>
+                    </c:if>
+                    <c:if test="${pair.getKey().type == 2}">
+                        <p> <%=i%>. <input type="checkbox" name="answer_<%=i%>">
+                            <input type="text" value=" ${answer.name}"></p>
+                    </c:if>
+                </c:forEach>
+                <% i = i + 1; %>
             </c:forEach>
-            <% i = i + 1; %>
-        </c:forEach>
-    </div>
-    <br>
-    <input type="submit" class="add-questionnaire" value="Отправить форму" id="s_submit">
-    <br>
+        </div>
+        <br>
+        <input type="submit" class="add-questionnaire" value="Отправить форму" id="s_submit">
+        <br>
 
-</form>
-
+    </form>
+</div>
 <br>
 </body>
 </html>
