@@ -140,4 +140,24 @@ public class QuestionnaireDaoImpl implements QuestionnaireDao {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Answer.class, optionId);
     }
+
+    @Override
+    public void edit(Questionnaire questionnaire, Map<Question,List<Answer>> map ) {
+        Session session = sessionFactory.getCurrentSession();
+        System.out.println("Q_ID = "+questionnaire.getId());
+        //int questionnaireId = (int) session.save(questionnaire);
+        for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
+            Question question = entry.getKey();
+            System.out.println("Q:"+question.toString());
+            List<Answer> answers = entry.getValue();
+            question.setQuestionnaire_id(questionnaire.getId());
+            int questionId = (int) session.save(question); //question saving
+            session.saveOrUpdate(question);
+            for (Answer answer : answers) {
+                System.out.println("A:"+answer.toString());
+                answer.setQuestion_id(questionId);
+                session.saveOrUpdate(answer);
+            }
+        }
+    }
 }

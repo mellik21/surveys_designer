@@ -38,6 +38,14 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     @Transactional
+    public void edit(Questionnaire questionnaire, Map<Question,List<Answer>> map ) {
+        questionnaireDao.edit(questionnaire, map);
+    }
+
+
+
+    @Override
+    @Transactional
     public void delete(int id) {
         questionnaireDao.delete(id);
     }
@@ -113,5 +121,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     public Answer getOption(int optionId) {
         return questionnaireDao.getOption(optionId);
     }
+
+
+
+
 }
 

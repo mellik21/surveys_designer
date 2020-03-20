@@ -131,3 +131,13 @@ function addCheckbox(id) {
 
     document.getElementById("text-checkbox-" + id).value = "";
 }
+
+function f(countQuestion,questionName) {
+    let hiddenQuestion = document.createElement("input");
+    hiddenQuestion.type="hidden";
+    hiddenQuestion.setAttribute("name","questionInformation");
+    hiddenQuestion.setAttribute("id","qInfo"+countQuestion);
+    hiddenQuestion.value=typeQuestion+"/";
+    hiddenQuestion.value +=questionName+"/";
+    question.appendChild(hiddenQuestion);
+}

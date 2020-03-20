@@ -18,11 +18,12 @@
 
 <div class="block">
     <form method="post" id="formId">
-        <label>Questionnaire ID: ${questionnaire.id} </label>
+        <input type="hidden" id="qId" value="${q}" name="qId" >
         <label for="title">Questionnaire title: </label>
         <input id="title" name="title" type="text" value="${questionnaire.title}">
         <label for="description">Description: </label>
         <input id="description" name="description" type="text" value="${questionnaire.description}">
+
         <div class="new-question">
             <div class="name-question">
                 <label for="name-question">Название вопроса</label>
@@ -43,11 +44,10 @@
 
         <div id="questions">
             <c:forEach items="${map.entrySet()}" var="pair">
-                <p><input type="text" value=" ${pair.getKey().name}"></p>
-                <% int i = 0; %>
-
+                <% int ii = 0; %>
+                <input type="hidden" name = "questionInformation" id="qInfo+<%=ii %>" value="${pair.getKey().type}/${pair.getKey().name}/">
                 <c:forEach items="${pair.getValue()}" var="answer">
-
+                <% int i = 0; %>
                     <c:if test="${pair.getKey().type == 1}">
 
                         <p><input type="radio" name="answer_<%=i%>">
@@ -57,8 +57,10 @@
                         <p> <%=i%>. <input type="checkbox" name="answer_<%=i%>">
                             <input type="text" value=" ${answer.name}"></p>
                     </c:if>
+                    <% i = i + 1; %>
                 </c:forEach>
-                <% i = i + 1; %>
+
+                <% ii = ii + 1; %>
             </c:forEach>
         </div>
         <br>

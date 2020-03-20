@@ -25,4 +25,7 @@ public interface QuestionnaireDao {
 
     Answer getOption(int optionId);
     int[]numberOfAnswers(int userId);
+
+    void edit(Questionnaire questionnaire, Map<Question, List<Answer>> map);
+
 }

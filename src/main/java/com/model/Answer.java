@@ -45,7 +45,7 @@ public class Answer {
 
     @Override
     public String toString(){
-        return id+" "+name;
+        return id+" "+name+" "+question_id;
     }
 
     public int getNumber() {

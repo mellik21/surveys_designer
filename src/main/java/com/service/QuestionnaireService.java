@@ -26,4 +26,6 @@ public interface QuestionnaireService {
 
     Answer getOption(int optionId);
     int []numberOfAnswers(int userId);
+
+    public void edit(Questionnaire questionnaire, Map<Question,List<Answer>> map );
 }

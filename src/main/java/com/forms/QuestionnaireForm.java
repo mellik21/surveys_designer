@@ -16,6 +16,7 @@ public class QuestionnaireForm {
     public QuestionnaireForm(String[]questions, int userId) {
         Map<Question,List<Answer>> newMap = new HashMap<>();
         for(String question : questions){
+            System.out.println(question);
            List<Answer> answerList = new ArrayList<>();
            Question q = new Question();
            String[]finalArray = question.split("/");

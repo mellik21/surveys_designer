@@ -7,6 +7,7 @@ import com.model.Questionnaire;
 import com.forms.QuestionnaireForm;
 import com.model.User;
 import com.service.QuestionnaireService;
+import org.graalvm.compiler.debug.CSVUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -124,29 +126,32 @@ public class ConstructorController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView loadPageEdit(@ModelAttribute("q") int questionnaireId,HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
+        System.out.println(questionnaireId);
         modelAndView.setViewName("edit");
         Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
         Map<Question, List<Answer>> map = questionnaireService.getQuestionnaireInfo(questionnaireId);
         modelAndView.addObject("map", map);
         modelAndView.addObject("questionnaire",questionnaire);
-
+        modelAndView.addObject("id",questionnaireId);
         return modelAndView;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView editQuestionnaire(HttpSession httpSession, @RequestParam("questionInformation") String[] questions,
-  @ModelAttribute("questionnaire")Questionnaire questionnaire ) {
+    @RequestParam("description")String description, @RequestParam("title")String title,@RequestParam("qId")String id ) {
 
         ModelAndView modelAndView = new ModelAndView();
         User user = (User) httpSession.getAttribute("user");
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
         Map<Question, List<Answer>> map = form.getMap();
-        System.out.println(questionnaire.toString());
+        System.out.println(id);
+
+        Questionnaire questionnaire = questionnaireService.getById(Integer.parseInt(id));
+        questionnaire.setDescription(description);
+        questionnaire.setTitle(title);
         questionnaire.setNumberOfAnswers(map.keySet().size());
-        questionnaireService.delete(questionnaire.getId());
-        questionnaireService.add(questionnaire,map);
-       // questionnaireService.edit(questionnaire);
+        questionnaireService.edit(questionnaire,map);
         modelAndView.setViewName("redirect:/dashboard");
         return modelAndView;
     }
