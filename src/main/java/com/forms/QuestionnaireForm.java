@@ -1,37 +1,38 @@
 package com.forms;
 
-import com.model.Answer;
-import com.model.Question;
+import com.entities.Answer;
+import com.entities.Question;
 
-import java.lang.reflect.AnnotatedArrayType;
 import java.util.*;
 
 public class QuestionnaireForm {
     private String title;
     private String description;
-    private Map<Question,List<Answer>> map = new HashMap<>();
-    public QuestionnaireForm(){
-    }
+    private Map<Question, List<Answer>> map = new HashMap<>();
 
-    public QuestionnaireForm(String[]questions, int userId) {
-        Map<Question,List<Answer>> newMap = new HashMap<>();
-        for(String question : questions){
-            System.out.println(question);
-           List<Answer> answerList = new ArrayList<>();
-           Question q = new Question();
-           String[]finalArray = question.split("/");
-           q.setType(finalArray[0]);
-           q.setName(finalArray[1]);
-           for(int i=2;i<finalArray.length;i++)
-           {
-               Answer answer = new Answer();
-               answer.setName(finalArray[i]);
-               answerList.add(answer);
-           }
-           q.setSize(finalArray.length-2);
-          newMap.put(q,answerList);
-       }
-        map=newMap;
+    public QuestionnaireForm(String[] questions, int userId) {
+        String[]header = questions[0].split("/");
+        title = header[0];
+        description = header[1];
+
+        Map<Question, List<Answer>> newMap = new HashMap<>();
+        for (int i = 1; i < questions.length;i++) {
+
+            List<Answer> answerList = new ArrayList<>();
+            Question q = new Question();
+            String[] finalArray = questions[i].split("/");
+            q.setName(finalArray[0]);
+            q.setType(finalArray[1]);
+
+            for (int j = 2; j < finalArray.length; j++) {
+                Answer answer = new Answer();
+                answer.setName(finalArray[j]);
+                answerList.add(answer);
+            }
+            q.setSize(finalArray.length - 2);
+            newMap.put(q, answerList);
+        }
+        map = newMap;
     }
 
     public String getTitle() {
@@ -43,7 +44,7 @@ public class QuestionnaireForm {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return title;
     }
 

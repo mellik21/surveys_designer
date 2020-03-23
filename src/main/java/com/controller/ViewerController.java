@@ -1,17 +1,15 @@
 package com.controller;
 
 import com.forms.UserAnswersForm;
-import com.model.Answer;
-import com.model.Question;
-import com.model.Questionnaire;
-import com.model.UserAnswer;
+import com.entities.Answer;
+import com.entities.Question;
+import com.entities.Questionnaire;
 import com.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +30,7 @@ public class ViewerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
         Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
-        Map<Question, List<Answer>> map = questionnaireService.getQuestionnaireInfo(questionnaireId);
+        Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
         modelAndView.addObject("map", map);
         modelAndView.addObject("title", questionnaire.getTitle());
         modelAndView.addObject("description", questionnaire.getDescription());

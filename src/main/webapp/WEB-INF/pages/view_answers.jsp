@@ -47,7 +47,7 @@
             <td>${answer.username}</td>
             <td>${answer.questionnaireTitle}</td>
             <td>${answer.question}</td>
-            <td>${answer.value}</td>
+            <td></td>
             <td></td>
         </tr>
     </c:forEach>

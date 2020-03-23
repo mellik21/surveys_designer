@@ -1,15 +1,55 @@
 package com.service;
 
-import com.model.User;
+import com.dao.UserDao;
+import com.entities.Questionnaire;
+import com.entities.User;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
+public class UserService {
 
-public interface UserService {
-    List allUsers();
-    int add(User user);
-    void delete(User user);
-    void edit(User user);
-    User getById(int id);
-    int findUser(User user);
+    private UserDao userDao;
+    @Autowired
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Transactional
+    public List allUsers() {
+        return userDao.allUsers();
+    }
+
+    @Transactional
+    public int add(User user) {
+       return userDao.add(user);
+    }
+
+    @Transactional
+    public void delete(User user) {
+        userDao.delete(user);
+    }
+
+    @Transactional
+    public void edit(User user) {
+        userDao.edit(user);
+    }
+
+    @Transactional
+    public User getById(int id) {
+        return userDao.getById(id);
+    }
+
+    @Transactional
+    public int findUser(User user) {
+       return userDao.findUser(user);
+    }
+    public List<Questionnaire> getQuesionnaireList(int id) {
+            return userDao.getQuesionnaireList(id);
+    }
 }

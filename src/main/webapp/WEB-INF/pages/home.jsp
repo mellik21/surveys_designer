@@ -21,7 +21,7 @@
 <body class="d-flex flex-column h-100"  style="background-color: #F5F5F5">
 <header>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top ">
+    <nav class="navbar navbar-expand-md navbar-dark">
         <a class="navbar-brand" href="#" style="color:#0000CD;">Questionnaire designer</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" >
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +41,7 @@
             <div class="dropdown show">
                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000000">
                     <i class="fa fa-user-circle" aria-hidden="true" ></i>
-                    USERNAME
+                    ${username}
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -69,7 +69,7 @@
     <% int i = 1; %>
     <c:forEach var="questionnaire" items="${questionnaireList}">
 
-        <div class="container" style="background:#DCDCDC; margin-top: 20px">
+        <div class="container" style="background:#FFFFFF; margin-top: 20px">
             <h4><a href="<c:url value="/view?questionnaireId=${questionnaire.id}"/>"
                    title="${questionnaire.title}" target="_blank">${questionnaire.title}</a> </h4>
 
