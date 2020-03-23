@@ -15,6 +15,10 @@ public class Answer {
     @Column(name="number")
     private int number;
 
+    @ManyToOne
+    @JoinColumn(name="question_id",insertable = false, updatable = false)
+    private Question question;
+
     public Answer() {
     }
 

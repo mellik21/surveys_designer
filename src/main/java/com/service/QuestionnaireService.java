@@ -6,8 +6,6 @@ import com.entities.Answer;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import com.entities.UserAnswer;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +17,19 @@ import java.util.Map;
 
 @Service
 public class QuestionnaireService {
-    private QuestionnaireDao questionnaireDao;
-    private QuestionDao questionDao;
-    private AnswerDao answerDao;
-    private UserAnswerDao userAnswerDao;
-    private UserDao userDao;
+    private final QuestionnaireDao questionnaireDao;
+    private final QuestionDao questionDao;
+    private final AnswerDao answerDao;
+    private final UserAnswerDao userAnswerDao;
+    private final UserDao userDao;
 
-    @Autowired
-    public void setUserDao(QuestionnaireDao questionnaireDao) {
+    public QuestionnaireService(QuestionnaireDao questionnaireDao, QuestionDao questionDao, AnswerDao answerDao, UserAnswerDao userAnswerDao, UserDao userDao) {
         this.questionnaireDao = questionnaireDao;
+        this.questionDao = questionDao;
+        this.answerDao = answerDao;
+        this.userAnswerDao = userAnswerDao;
+        this.userDao = userDao;
     }
-
 
     @Transactional
     public List allQuestionnaires() {
@@ -49,6 +49,8 @@ public class QuestionnaireService {
 
     @Transactional
     public void delete(int questionnaireId) {
+        questionnaireDao.delete(questionnaireDao.get(questionnaireId));
+        /*
         List<UserAnswer> userAnswers = questionnaireDao.getUserAnswers(questionnaireId);
         for (UserAnswer userAnswer : userAnswers) {
             userAnswerDao.delete(userAnswer);
@@ -61,7 +63,7 @@ public class QuestionnaireService {
             }
             questionDao.delete(question.getKey());
         }
-        questionnaireDao.delete(questionnaireId);
+        questionnaireDao.delete(questionnaireId);*/
     }
 
     @Transactional
@@ -70,7 +72,7 @@ public class QuestionnaireService {
     }
 
     @Transactional
-    public Questionnaire getById(int id) {
+    public Questionnaire get(int id) {
         return questionnaireDao.get(id);
     }
 
@@ -80,9 +82,10 @@ public class QuestionnaireService {
         Map<Question, List<Answer>> result = new HashMap<>();
 
         List<Question> questions = getQuestions(questionnaireId);
-        for (Question q : questions) {
-            List<Answer> answers = questionnaireDao.getAnswers(q.getId());
-            result.put(q, answers);
+
+        for (Question question : questions) {
+            List<Answer> answers = questionDao.getAnswers(question);
+            result.put(question, answers);
         }
 
         return result;
@@ -98,7 +101,6 @@ public class QuestionnaireService {
                 UserAnswersForm answer = new UserAnswersForm();
                 answer.setQuestion(questionnaireDao.getQuestionById(userAnswer.getQuestion_id()).getName());
                 answer.setQuestionnaireTitle(questionnaireDao.get(questionnaireId).getTitle());
-                answer.setUsername(questionnaireDao.getUserById(userAnswer.getUser_id()).getLogin());
                 answer.setValue(userAnswer.getValue());
                 userAnswersFormList.add(answer);
             }
@@ -108,7 +110,14 @@ public class QuestionnaireService {
 
     @Transactional
     public List<Question> getQuestions(int questionnaireId) {
-        return questionnaireDao.getQuestions(questionnaireId);
+        List<Question> result = new ArrayList<>();
+        List questions = questionnaireDao.getQuestions(questionnaireId);
+
+        for (Object object : questions) {
+            Question question = (Question)object;
+            result.add(question);
+        }
+        return result;
     }
 
 
@@ -119,11 +128,6 @@ public class QuestionnaireService {
 
 
     @Transactional
-    public List<Answer> getOptions(int questionId) {
-        return questionDao.getAnswers(questionId);
-    }
-
-    @Transactional
     public Answer getOption(int optionId) {
         return questionnaireDao.getOption(optionId);
     }
@@ -131,7 +135,8 @@ public class QuestionnaireService {
 
     @Transactional
     public int[] numberOfAnswers(int userId) {
-        List questionnaires = userDao.getQuesionnaireList(userId);
+        List<Questionnaire> questionnaires = userDao.getQuestionnaireList(userId);
+
         int[] numberOfAnswers = new int[questionnaires.size()];
         int i = 0;
         for (Object object : questionnaires) {

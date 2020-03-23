@@ -32,15 +32,16 @@
                     <% int i = 0; %>
                     <c:forEach items="${map.entrySet()}" var="pair">
                         <p><label for="answer">${pair.getKey().name}</label></p>
+
                         <c:forEach items="${pair.getValue()}" var="answer">
-                            <c:if test="${pair.getKey().type == 1}">
+                            <c:if test="${pair.getKey().type == 2}">
                                 <p><input type="radio" id="answer" name="answer_<%=i%>">${answer.name}</p>
                             </c:if>
-                            <c:if test="${pair.getKey().type == 2}">
+                            <c:if test="${pair.getKey().type == 3}">
                                 <p><input type="checkbox" id="answer" name="answer_<%=i%>">${answer.name}</p>
                             </c:if>
                         </c:forEach>
-                        <c:if test="${pair.getKey().type == 0}">
+                        <c:if test="${pair.getKey().type == 1}">
                             <input class="input100" type="text" name=<%=i%> class="input100">
                         </c:if>
                         <% i = i + 1; %>

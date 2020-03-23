@@ -19,9 +19,6 @@ public class AuthorizationController {
         this.userService = userService;
     }
 
-    /**
-     * Loading the start page
-     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView loadStartPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -32,7 +29,7 @@ public class AuthorizationController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ModelAndView authenticate(HttpSession httpSession, @ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println(user.toString() + user.getPassword());
+        System.out.println(user.getLogin()+" "+user.getId());
         int id = userService.findUser(user);
         if(id == -1){
             System.out.println("NO SUCH USER SORRY");

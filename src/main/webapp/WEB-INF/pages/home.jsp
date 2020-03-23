@@ -20,8 +20,7 @@
 
 <body class="d-flex flex-column h-100"  style="background-color: #F5F5F5">
 <header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
         <a class="navbar-brand" href="#" style="color:#0000CD;">Questionnaire designer</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" >
             <span class="navbar-toggler-icon"></span>
@@ -29,7 +28,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: #000000">Мои опросы<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/designer/dashboard" style="color: #000000">Мои опросы<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="color: #000000">Просмотр ответов</a>

@@ -29,7 +29,9 @@ public class ViewerController {
     public ModelAndView viewQuestionnaire(@ModelAttribute("questionnaireId") int questionnaireId, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
-        Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
+
+        Questionnaire questionnaire = questionnaireService.get(questionnaireId);
+
         Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
         modelAndView.addObject("map", map);
         modelAndView.addObject("title", questionnaire.getTitle());

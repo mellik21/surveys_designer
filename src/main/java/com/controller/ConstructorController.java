@@ -27,13 +27,18 @@ public class ConstructorController {
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
-
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public ModelAndView allQuestionnaires(HttpSession httpSession) {
+    public ModelAndView dashboard(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
 
         User user = (User) httpSession.getAttribute("user");
+        System.out.println(user+" "+user.getId());
         List<Questionnaire> questionnaires = userService.getQuesionnaireList(user.getId());
+
         if (questionnaires.isEmpty()) {
             System.out.println("No questionnaires for " + user.getLogin() + "\n");
         } else {
@@ -66,7 +71,6 @@ public class ConstructorController {
     public ModelAndView readingTheQuestionnaire(@RequestParam("questionInformation") String[] questions, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         User user = (User) httpSession.getAttribute("user");
-        System.out.println(questions[0]+"!!!!!!!");
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
         Map<Question, List<Answer>> map = form.getMap();
@@ -105,9 +109,10 @@ public class ConstructorController {
     public ModelAndView loadPageEdit(@ModelAttribute("q") int questionnaireId,HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         System.out.println(questionnaireId);
-        modelAndView.setViewName("edit");
-        Questionnaire questionnaire = questionnaireService.getById(questionnaireId);
+        modelAndView.setViewName("editing");
+        Questionnaire questionnaire = questionnaireService.get(questionnaireId);
         Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
+
         modelAndView.addObject("map", map);
         modelAndView.addObject("questionnaire",questionnaire);
         modelAndView.addObject("id",questionnaireId);
@@ -125,7 +130,7 @@ public class ConstructorController {
         Map<Question, List<Answer>> map = form.getMap();
         System.out.println(id);
 
-        Questionnaire questionnaire = questionnaireService.getById(Integer.parseInt(id));
+        Questionnaire questionnaire = questionnaireService.get(Integer.parseInt(id));
         questionnaire.setDescription(description);
         questionnaire.setTitle(title);
         questionnaire.setNumberOfAnswers(map.keySet().size());

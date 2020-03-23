@@ -3,12 +3,11 @@ package com.service;
 import com.dao.UserDao;
 import com.entities.Questionnaire;
 import com.entities.User;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,7 +48,14 @@ public class UserService {
     public int findUser(User user) {
        return userDao.findUser(user);
     }
+
+    @Transactional
     public List<Questionnaire> getQuesionnaireList(int id) {
-            return userDao.getQuesionnaireList(id);
+        List<Questionnaire> questionnaires = new ArrayList<>();
+        List list = userDao.getQuestionnaireList(id);
+        for(Object object:list){
+            questionnaires.add((Questionnaire)object);
+        }
+        return questionnaires;
     }
 }

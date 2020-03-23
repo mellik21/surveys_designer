@@ -7,12 +7,12 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
-public class QuestionnaireDao {
+public class QuestionnaireDao implements Dao<Questionnaire>{
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -44,9 +44,10 @@ public class QuestionnaireDao {
     }
 
     //todo Добавить удаление вопросов и ответов при удалении опроса
-    public void delete(int id) {
+    @Override
+    public void delete(Questionnaire questionnaire) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(get(id));
+        session.delete(questionnaire);
     }
 
     public void edit(Questionnaire questionnaire) {
@@ -114,4 +115,27 @@ public class QuestionnaireDao {
             }
         }
     }
+
+
+
+    @Override
+    public Optional<Questionnaire> get(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Questionnaire> getAll() {
+        return null;
+    }
+
+    @Override
+    public void save(Questionnaire questionnaire) {
+
+    }
+
+    @Override
+    public void update(Questionnaire questionnaire, String[] params) {
+
+    }
+
 }

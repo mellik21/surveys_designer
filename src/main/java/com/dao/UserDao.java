@@ -7,9 +7,10 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class UserDao{
+public class UserDao implements Dao<User>{
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -29,6 +30,26 @@ public class UserDao{
         Session session = sessionFactory.getCurrentSession();
         session.persist(user);
         return 1;
+    }
+
+    @Override
+    public Optional<User> get(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return null;
+    }
+
+    @Override
+    public void save(User user) {
+
+    }
+
+    @Override
+    public void update(User user, String[] params) {
+
     }
 
     public void delete(User user) {
@@ -60,10 +81,10 @@ public class UserDao{
         }
     }
 
-    public List getQuesionnaireList(int id) {
+    public List<Questionnaire> getQuestionnaireList(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Questionnaire q where q.user_id= :user_id");
-        return (query
-                .setParameter("user_id", id).getResultList());
+        query.setParameter("user_id", id);
+        return query.getResultList();
     }
 }

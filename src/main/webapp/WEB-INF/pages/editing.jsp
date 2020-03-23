@@ -19,7 +19,7 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src = "res/js/answers.js"></script>
+    <script src="res/js/answers.js"></script>
     <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://snipp.ru/cdn/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <style type="text/css">
@@ -28,6 +28,7 @@
             margin: 10px auto;
             padding: 0;
         }
+
         .handle {
             display: inline-block;
             width: 16px;
@@ -51,7 +52,8 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/designer/dashboard" style="color: #000000">Мои опросы<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/designer/dashboard" style="color: #000000">Мои опросы<span
+                            class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="color: #000000">Просмотр ответов</a>
@@ -84,17 +86,18 @@
 <main role="main" class="flex-shrink-0" id="main">
 
     <div class="container">
-        <h3 style="margin-top: 40px">Создайте опрос</h3>
+        <h3 style="margin-top: 40px">Редактирование вопроса</h3>
         <form method="post" id="formId">
             <div class="container"
                  style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; border-radius: 10px;">
                 <br>
                 <label for="title">Название опроса: </label>
-                <input type="text" id="title" class="form-control" aria-label="Text input with checkbox">
+                <input type="text" id="title" class="form-control" aria-label="Text input with checkbox"
+                       value="${questionnaire.title}">
 
                 <div class="form-group">
                     <label for="description">Описание опроса:</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
+                    <textarea class="form-control" id="description" rows="3">${questionnaire.description}</textarea>
                 </div>
                 <br>
             </div>
@@ -107,48 +110,76 @@
         <form method="post" id="formId1">
 
             <div id="containers" class="containerBlock">
+                <% int i = 0; %>
+                <c:forEach items="${map.entrySet()}" var="pair">
+                    <div class="container" style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; margin-top:20px; border-radius: 10px;"  id="container<%=i%>">
+                        <br>
+                        <i class="handle" aria-hidden="true"></i>
+                        <h5 style="margin: 10px">Вопрос</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect<%=i%>">Тип вопроса</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect<%=i%>" onchange="addAnswerBlock()" onload="addAnswerBlock(<%=i%>)" >
+                                <option value="0">Choose...</option>
+                                <c:choose>
+                                    <c:when test="${pair.getKey().type == 1}">
+                                        <option selected value="1">Текстовый</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="1">Текстовый</option>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${pair.getKey().type == 2}">
+                                        <option selected value="2">Один из многих</option>
 
-                <div class="container"
-                     style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; margin-top:20px; border-radius: 10px;"
-                     id="container0">
-                    <br>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="2">Один из многих</option>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${pair.getKey().type == 3}">
+                                        <option selected value="3">Многие из многих</option>
 
-                    <i class="handle" aria-hidden="true"></i>
-                    <h5 style="margin: 10px">Вопрос</h5>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect0">Тип вопроса</label>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="3">Многие из многих</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </select>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect0" onchange="addAnswerBlockF()">
-                            <option selected>Choose...</option>
-                            <option value="1">Текстовый</option>
-                            <option value="2">Один из многих</option>
-                            <option value="3">Многие из многих</option>
-                        </select>
+
+                        <div class="new-question" id="q<%=i%>">
+                            <div class="name-question">
+                                <label for="name-question">Название вопроса</label>
+                                <input type="text" id="name-question" class="form-control questionName "
+                                       aria-label="Text input with checkbox" value="${pair.getKey().name}">
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-light" href="#"
+                                style=" position: relative; float:right; top:100%; margin-top:-20px;"
+                                id="deleteQuestionButton<%=i%>"
+                                onclick="deleteQuestion(0)">
+                            Удалить вопрос
+                        </button>
+                        <br>
                     </div>
 
-                    <div class="new-question" id="q0">
-                        <div class="name-question">
-                            <label for="name-question">Название вопроса</label>
-                            <input type="text" id="name-question" class="form-control questionName "
-                                   aria-label="Text input with checkbox"  value="">
-                        </div>
-                    </div>
-                    <br>
-                    <button class="btn btn-light" href="#"
-                            style=" position: relative; float:right; top:100%; margin-top:-20px;"
-                            id="deleteQuestionButton0"
-                            onclick="deleteQuestion(0)">
-                        Удалить вопрос
-                    </button>
-                    <br>
-                </div>
 
+
+
+                    <% i = i + 1; %>
+                </c:forEach>
 
                 <div id="questions">
-                 <hidden>  ${questions}</hidden>
+                    <hidden> ${questions}</hidden>
                 </div>
             </div>
+
+
             <br>
             <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="addQuestionContainer()"><i
                     class="fa fa-plus" aria-hidden="true"></i>
@@ -169,8 +200,9 @@
             });
 
 
-            $('#formId1').submit(function() {
+            $('#formId1').submit(function () {
                 addHidden();
+                testGrammar();
                 return true;
             });
         </script>

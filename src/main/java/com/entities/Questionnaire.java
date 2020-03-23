@@ -1,6 +1,8 @@
 package com.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questionnaire", schema = "surveys")
@@ -10,7 +12,8 @@ public class Questionnaire {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "title")
-    private String  title;
+    private String title;
+
     @Column(name = "user_id")
     private int user_id;
     @Column(name = "size")
@@ -18,14 +21,19 @@ public class Questionnaire {
     @Column(name = "description")
     private String description;
     private int numberOfAnswers;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionnaire", orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
+
     public Questionnaire() {
 
     }
+
     public Questionnaire(String title, String description, int user_id, int size) {
         super();
-        this.title=title;
-        this.user_id=user_id;
-        this.size=size;
+        this.title = title;
+        this.user_id = user_id;
+        this.size = size;
         this.description = description;
     }
 
@@ -72,14 +80,14 @@ public class Questionnaire {
     public void setNumberOfAnswers(int numberOfAnswers) {
         this.numberOfAnswers = numberOfAnswers;
     }
-    public int getNumberOfAnswers(){
-       return numberOfAnswers;
+
+    public int getNumberOfAnswers() {
+        return numberOfAnswers;
     }
 
 
-
     @Override
-    public String toString(){
-        return id+" "+title+" "+user_id;
+    public String toString() {
+        return id + " " + title + " " + user_id;
     }
 }

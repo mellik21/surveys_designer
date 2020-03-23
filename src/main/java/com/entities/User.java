@@ -1,19 +1,22 @@
 package com.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "surveys")
 public class User {
 
-    @Column(name = "login")
-    private String login;
-    @Column(name = "password")
-    private String password;
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "login")
+    private String login;
+    @Column(name = "password")
+    private String password;
 
     public int getId() {
         return id;
