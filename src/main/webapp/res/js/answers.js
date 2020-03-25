@@ -49,16 +49,18 @@ function addHeader(index) {
 
     h.append(document.createElement("br"));
 
+    /*
     let check = document.createElement("input");
     check.setAttribute("class", "form-check-input");
     check.setAttribute("id", "check" + index);
     check.setAttribute("type", "checkbox");
     h.append(check);
+
     let label = document.createElement("label");
     label.setAttribute("class", "form-check-label");
     label.setAttribute("for", "check" + index);
     label.textContent = "Перемешивать ответы";
-    h.append(label);
+    h.append(label);*/
 }
 
 function addBlock(index) {
