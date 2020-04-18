@@ -12,9 +12,9 @@ public class QuestionnaireForm {
 
     public QuestionnaireForm(String[] questions, int userId) {
         String[]header = questions[0].split("/");
-        title = header[0];
-        description = header[1];
-
+        this.title = header[0];
+        this.description = header[1];
+        System.out.println("title = "+title+'\n' +"descr = "+description+'\n');
         Map<Question, List<Answer>> newMap = new HashMap<>();
         for (int i = 1; i < questions.length;i++) {
 

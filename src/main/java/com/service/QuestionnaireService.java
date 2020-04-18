@@ -6,7 +6,6 @@ import com.entities.Answer;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import com.entities.UserAnswer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +16,11 @@ import java.util.Map;
 
 @Service
 public class QuestionnaireService {
-    private final QuestionnaireDao questionnaireDao;
-    private final QuestionDao questionDao;
-    private final AnswerDao answerDao;
-    private final UserAnswerDao userAnswerDao;
-    private final UserDao userDao;
+    private  QuestionnaireDao questionnaireDao;
+    private  QuestionDao questionDao;
+    private  AnswerDao answerDao;
+    private  UserAnswerDao userAnswerDao;
+    private  UserDao userDao;
 
     public QuestionnaireService(QuestionnaireDao questionnaireDao, QuestionDao questionDao, AnswerDao answerDao, UserAnswerDao userAnswerDao, UserDao userDao) {
         this.questionnaireDao = questionnaireDao;
@@ -33,7 +32,7 @@ public class QuestionnaireService {
 
     @Transactional
     public List allQuestionnaires() {
-        return questionnaireDao.allQuestionnaires();
+        return questionnaireDao.getAll();
     }
 
 
@@ -42,15 +41,11 @@ public class QuestionnaireService {
         questionnaireDao.add(questionnaire, map);
     }
 
-    @Transactional
-    public void edit(Questionnaire questionnaire, Map<Question, List<Answer>> map) {
-        questionnaireDao.edit(questionnaire, map);
-    }
 
     @Transactional
     public void delete(int questionnaireId) {
         questionnaireDao.delete(questionnaireDao.get(questionnaireId));
-        /*
+
         List<UserAnswer> userAnswers = questionnaireDao.getUserAnswers(questionnaireId);
         for (UserAnswer userAnswer : userAnswers) {
             userAnswerDao.delete(userAnswer);
@@ -67,8 +62,8 @@ public class QuestionnaireService {
     }
 
     @Transactional
-    public void edit(Questionnaire questionnaire) {
-        questionnaireDao.edit(questionnaire);
+    public void update(Questionnaire questionnaire, Map<Question,List<Answer>> map) {
+        questionnaireDao.update(questionnaire);
     }
 
     @Transactional
@@ -94,12 +89,12 @@ public class QuestionnaireService {
 
     @Transactional
     public List<UserAnswersForm> getUserAnswers(int questionnaireId) {
-        List<UserAnswer> userAnswers = questionnaireDao.getUserAnswers(questionnaireId);
+        List<UserAnswer> userAnswers = userAnswerDao.getUserAnswers(questionnaireId);
         List<UserAnswersForm> userAnswersFormList = new ArrayList<>();
         if (!userAnswers.isEmpty()) {
             for (UserAnswer userAnswer : userAnswers) {
                 UserAnswersForm answer = new UserAnswersForm();
-                answer.setQuestion(questionnaireDao.getQuestionById(userAnswer.getQuestion_id()).getName());
+                answer.setQuestion(questionDao.get(userAnswer.getQuestion_id()).getName());
                 answer.setQuestionnaireTitle(questionnaireDao.get(questionnaireId).getTitle());
                 answer.setValue(userAnswer.getValue());
                 userAnswersFormList.add(answer);
@@ -120,19 +115,6 @@ public class QuestionnaireService {
         return result;
     }
 
-
-    @Transactional
-    public Question getQuestion(int questionId) {
-        return questionDao.get(questionId);
-    }
-
-
-    @Transactional
-    public Answer getOption(int optionId) {
-        return questionnaireDao.getOption(optionId);
-    }
-
-
     @Transactional
     public int[] numberOfAnswers(int userId) {
         List<Questionnaire> questionnaires = userDao.getQuestionnaireList(userId);
@@ -147,5 +129,6 @@ public class QuestionnaireService {
         }
         return numberOfAnswers;
     }
+
 }
 

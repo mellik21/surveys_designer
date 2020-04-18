@@ -85,6 +85,11 @@ public class Questionnaire {
         return numberOfAnswers;
     }
 
+    public void merge(Questionnaire other) {
+        setSize(other.size);
+        setDescription(other.description);
+        setTitle(other.title);
+    }
 
     @Override
     public String toString() {

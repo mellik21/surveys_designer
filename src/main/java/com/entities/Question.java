@@ -96,4 +96,13 @@ public class Question {
     public void setNumber(int number) {
         this.number = number;
     }
+
+    public void merge(Question other){
+        setName(other.name);
+        setNumber(other.number);
+        setQuestionnaire_id(other.questionnaire_id);
+        setType(other.type);
+    }
+
+
 }

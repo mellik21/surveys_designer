@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -36,7 +37,6 @@ public class ConstructorController {
         ModelAndView modelAndView = new ModelAndView();
 
         User user = (User) httpSession.getAttribute("user");
-        System.out.println(user+" "+user.getId());
         List<Questionnaire> questionnaires = userService.getQuesionnaireList(user.getId());
 
         if (questionnaires.isEmpty()) {
@@ -106,7 +106,7 @@ public class ConstructorController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView loadPageEdit(@ModelAttribute("q") int questionnaireId,HttpSession httpSession) {
+    public ModelAndView loadPageEdit(@ModelAttribute("q") int questionnaireId, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         System.out.println(questionnaireId);
         modelAndView.setViewName("editing");
@@ -116,26 +116,30 @@ public class ConstructorController {
         modelAndView.addObject("map", map);
         modelAndView.addObject("questionnaire",questionnaire);
         modelAndView.addObject("id",questionnaireId);
+
+        httpSession.setAttribute("questionnaire",questionnaireId);
         return modelAndView;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editQuestionnaire(HttpSession httpSession, @RequestParam("questionInformation") String[] questions,
-    @RequestParam("description")String description, @RequestParam("title")String title,@RequestParam("qId")String id ) {
+    public ModelAndView editQuestionnaire(@RequestParam("questionInformation") String[] questions, HttpSession httpSession ) {
 
         ModelAndView modelAndView = new ModelAndView();
         User user = (User) httpSession.getAttribute("user");
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
+
         Map<Question, List<Answer>> map = form.getMap();
+        int id = (int)httpSession.getAttribute("questionnaire");
         System.out.println(id);
 
-        Questionnaire questionnaire = questionnaireService.get(Integer.parseInt(id));
-        questionnaire.setDescription(description);
-        questionnaire.setTitle(title);
-        questionnaire.setNumberOfAnswers(map.keySet().size());
+        Questionnaire questionnaire = questionnaireService.get(id);
+        questionnaire.setDescription(form.getDescription());
+        questionnaire.setTitle(form.getTitle());
+        questionnaire.setSize(map.keySet().size());
         questionnaireService.edit(questionnaire,map);
         modelAndView.setViewName("redirect:/dashboard");
+        httpSession.removeAttribute("questionnaire");
         return modelAndView;
     }
 

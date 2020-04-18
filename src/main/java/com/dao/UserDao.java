@@ -3,6 +3,7 @@ import com.entities.Questionnaire;
 import com.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,53 +19,41 @@ public class UserDao implements Dao<User>{
         this.sessionFactory = sessionFactory;
     }
 
-
-    @SuppressWarnings("unchecked")
-    public List<User> allUsers() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from User").list();
-    }
-
-
-    public int add(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(user);
-        return 1;
-    }
-
-    @Override
-    public Optional<User> get(long id) {
-        return Optional.empty();
-    }
-
     @Override
     public List<User> getAll() {
-        return null;
+        return (List<User>) sessionFactory.openSession().createQuery("From User").list();
+    }
+
+    @Override
+    public User get(int id) {
+        return sessionFactory.openSession().get(User.class, id);
     }
 
     @Override
     public void save(User user) {
-
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(user);
+        tx1.commit();
+        session.close();
     }
 
     @Override
-    public void update(User user, String[] params) {
-
-    }
-
-    public void delete(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(user);
-    }
-
-    public void edit(User user) {
-        Session session = sessionFactory.getCurrentSession();
+    public void update(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
         session.update(user);
+        tx1.commit();
+        session.close();
     }
 
-    public User getById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(User.class, id);
+    @Override
+    public void delete(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(user);
+        tx1.commit();
+        session.close();
     }
 
     public int findUser(User user) {

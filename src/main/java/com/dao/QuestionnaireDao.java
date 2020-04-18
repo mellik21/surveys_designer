@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public class QuestionnaireDao implements Dao<Questionnaire>{
+
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -20,8 +21,8 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
         this.sessionFactory = sessionFactory;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Questionnaire> allQuestionnaires() {
+
+    public List<Questionnaire> getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Questionnaire ").list();
     }
@@ -43,17 +44,13 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
         }
     }
 
-    //todo Добавить удаление вопросов и ответов при удалении опроса
+
     @Override
     public void delete(Questionnaire questionnaire) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(questionnaire);
     }
 
-    public void edit(Questionnaire questionnaire) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(questionnaire);
-    }
 
     public Questionnaire get(int id) {
         Session session = sessionFactory.getCurrentSession();
@@ -67,40 +64,12 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
         return (List<Question>) query.list();
     }
 
-    public List<Answer> getAnswers(int questionId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.ANSWER where question_id = " + questionId).addEntity(Answer.class);
-        return (List<Answer>) query.list();
-    }
-
-
-    public List<UserAnswer> getUserAnswers(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where questionnaire_id = " + id).addEntity(UserAnswer.class);
-        return (List<UserAnswer>) query.list();
-    }
-
-
-
-    public Question getQuestionById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(Question.class, id);
-    }
-
-    public User getUserById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(User.class, id);
-    }
-
-    public Answer getOption(int optionId) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(Answer.class, optionId);
-    }
-
+/*
     public void edit(Questionnaire questionnaire, Map<Question,List<Answer>> map ) {
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("Q_ID = "+questionnaire.getId());
-        //int questionnaireId = (int) session.save(questionnaire);
+        int id = questionnaire.getId();
+
+
         for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
             Question question = entry.getKey();
             System.out.println("Q:"+question.toString());
@@ -114,27 +83,18 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
                 session.saveOrUpdate(answer);
             }
         }
-    }
+    }*/
 
-
-
-    @Override
-    public Optional<Questionnaire> get(long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Questionnaire> getAll() {
-        return null;
+    public void update(Questionnaire questionnaire){
+        Session session = sessionFactory.getCurrentSession();
+        Questionnaire existing = session.find(Questionnaire.class,questionnaire.getId());
+        if(existing!=null){
+            existing.merge(questionnaire);
+        }
     }
 
     @Override
     public void save(Questionnaire questionnaire) {
-
-    }
-
-    @Override
-    public void update(Questionnaire questionnaire, String[] params) {
 
     }
 

@@ -4,29 +4,33 @@ import com.entities.Answer;
 import com.entities.Question;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class QuestionDao implements Dao<Question>{
+public class QuestionDao implements Dao<Question> {
     private SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     @Override
-    public Optional<Question> get(long id) {
-        return Optional.empty();
+    public Question get(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Question.class, id);
+
     }
 
     @Override
     public List<Question> getAll() {
-        return null;
+      return (List<Question>) sessionFactory.openSession().createQuery("From Question").getResultList();
+
     }
 
     @Override
@@ -35,17 +39,22 @@ public class QuestionDao implements Dao<Question>{
     }
 
     @Override
-    public void update(Question question, String[] params) {
-
+    public void update(Question question) {
+        Session session = sessionFactory.getCurrentSession();
+        Question existing = session.find(Question.class, question.getId());
+        if (existing != null) {
+            existing.merge(question);
+        }
     }
+
 
     @Override
     public void delete(Question question) {
-
-    }
-
-    public Question get(int id) {
-        return null;
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(question);
+        tx1.commit();
+        session.close();
     }
 
     public List<Answer> getAnswers(Question question) {

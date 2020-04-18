@@ -54,7 +54,7 @@ public class AuthorizationController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registration(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println(user.toString()+" "+user.getPassword());
+
         if(user.getPassword()!=null) {
             user.setId(userService.add(user));
             modelAndView.setViewName("redirect:/");

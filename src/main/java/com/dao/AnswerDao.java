@@ -1,7 +1,11 @@
 package com.dao;
 
 import com.entities.Answer;
+import com.entities.Question;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,27 +22,42 @@ public class AnswerDao implements Dao<Answer> {
     }
 
     @Override
-    public Optional<Answer> get(long id) {
-        return Optional.empty();
+    public Answer get(int id) {
+        return sessionFactory.openSession().get(Answer.class, id) ;
     }
 
     @Override
     public List<Answer> getAll() {
-        return null;
+        return (List<Answer>) sessionFactory.openSession().createQuery("From Answer").list();
     }
 
     @Override
     public void save(Answer answer) {
-
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(answer);
+        tx1.commit();
+        session.close();
     }
 
     @Override
-    public void update(Answer answer, String[] params) {
-
+    public void update(Answer answer) {
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(answer);
+        tx1.commit();
+        session.close();
     }
 
     @Override
     public void delete(Answer answer) {
-
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(answer);
+        tx1.commit();
+        session.close();
     }
+
+
+
 }
