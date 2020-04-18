@@ -1,8 +1,5 @@
 package com.forms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UserAnswersForm {
     private String username;
     private String questionnaireTitle;

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,13 +19,13 @@ public class UserService {
     }
 
     @Transactional
-    public List allUsers() {
-        return userDao.allUsers();
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 
     @Transactional
-    public int add(User user) {
-       return userDao.add(user);
+    public void add(User user) {
+        userDao.persist(user);
     }
 
     @Transactional
@@ -35,27 +34,22 @@ public class UserService {
     }
 
     @Transactional
-    public void edit(User user) {
-        userDao.edit(user);
+    public void update(User user) {
+        userDao.update(user);
     }
 
     @Transactional
-    public User getById(int id) {
-        return userDao.getById(id);
+    public User get(int id) {
+        return userDao.get(id);
     }
 
     @Transactional
-    public int findUser(User user) {
-       return userDao.findUser(user);
+    public int find(User user) {
+       return userDao.find(user);
     }
 
     @Transactional
-    public List<Questionnaire> getQuesionnaireList(int id) {
-        List<Questionnaire> questionnaires = new ArrayList<>();
-        List list = userDao.getQuestionnaireList(id);
-        for(Object object:list){
-            questionnaires.add((Questionnaire)object);
-        }
-        return questionnaires;
+    public List<Questionnaire> getQuestionnaireList(int id) {
+        return userDao.getQuestionnaireList(id);
     }
 }

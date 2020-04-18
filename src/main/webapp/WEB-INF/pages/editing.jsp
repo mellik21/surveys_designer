@@ -114,11 +114,15 @@
                 <% int i = 0; %>
                 <% int j = 0; %>
                 <c:forEach items="${map.entrySet()}" var="pair">
-                <div class="container" style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; margin-top:20px; border-radius: 10px;"
+                <div class="container"
+                     style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; margin-top:20px; border-radius: 10px;"
                      id="container<%=i%>">
                     <br>
                     <i class="handle" aria-hidden="true"></i>
                     <h5 style="margin: 10px">Вопрос</h5>
+                   <hidden id="questionId<%=i%> " value=" ${pair.getKey().id} " ></hidden>
+
+
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect<%=i%>">Тип вопроса</label>
@@ -139,6 +143,7 @@
                             <input type="text" id="name-question" class="form-control questionName "
                                    aria-label="Text input with checkbox"
                                    value="${pair.getKey().name}">
+
                         </div>
                     </div>
                     <br>

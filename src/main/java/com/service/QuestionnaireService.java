@@ -16,11 +16,11 @@ import java.util.Map;
 
 @Service
 public class QuestionnaireService {
-    private  QuestionnaireDao questionnaireDao;
-    private  QuestionDao questionDao;
-    private  AnswerDao answerDao;
-    private  UserAnswerDao userAnswerDao;
-    private  UserDao userDao;
+    private QuestionnaireDao questionnaireDao;
+    private QuestionDao questionDao;
+    private AnswerDao answerDao;
+    private UserAnswerDao userAnswerDao;
+    private UserDao userDao;
 
     public QuestionnaireService(QuestionnaireDao questionnaireDao, QuestionDao questionDao, AnswerDao answerDao, UserAnswerDao userAnswerDao, UserDao userDao) {
         this.questionnaireDao = questionnaireDao;
@@ -31,7 +31,7 @@ public class QuestionnaireService {
     }
 
     @Transactional
-    public List allQuestionnaires() {
+    public List<Questionnaire> getAll() {
         return questionnaireDao.getAll();
     }
 
@@ -43,27 +43,26 @@ public class QuestionnaireService {
 
 
     @Transactional
-    public void delete(int questionnaireId) {
-        questionnaireDao.delete(questionnaireDao.get(questionnaireId));
-
-        List<UserAnswer> userAnswers = questionnaireDao.getUserAnswers(questionnaireId);
-        for (UserAnswer userAnswer : userAnswers) {
-            userAnswerDao.delete(userAnswer);
-        }
-        Map<Question, List<Answer>> questionListMap = getMap(questionnaireId);
-        for (Map.Entry<Question, List<Answer>> question : questionListMap.entrySet()) {
-            List<Answer> answers = question.getValue();
-            for (Answer answer : answers) {
-                answerDao.delete(answer);
-            }
-            questionDao.delete(question.getKey());
-        }
-        questionnaireDao.delete(questionnaireId);*/
+    public void delete(int id) {
+        Questionnaire questionnaire = questionnaireDao.get(id);
+        questionnaireDao.delete(questionnaire);
     }
 
     @Transactional
     public void update(Questionnaire questionnaire, Map<Question,List<Answer>> map) {
+        System.out.println("UPDATE");
         questionnaireDao.update(questionnaire);
+        for(Map.Entry<Question,List<Answer>> entry : map.entrySet()){
+            Question question = entry.getKey();
+            if(question.getId()!=-1) {
+                questionDao.update(question);
+            }else {
+                questionDao.persist(question);
+            }
+            for(Answer answer : entry.getValue()){
+                answerDao.update(answer);
+            }
+        }
     }
 
     @Transactional
@@ -121,14 +120,16 @@ public class QuestionnaireService {
 
         int[] numberOfAnswers = new int[questionnaires.size()];
         int i = 0;
-        for (Object object : questionnaires) {
-            Questionnaire questionnaire = (Questionnaire) object;
-            List answers = userAnswerDao.getUserAnswers(questionnaire.getId());
+        for (Questionnaire questionnaire : questionnaires) {
+            List<UserAnswer> answers = userAnswerDao.getUserAnswers(questionnaire.getId());
             numberOfAnswers[i] = answers.size();
+            System.out.println(answers.size());
             i++;
         }
         return numberOfAnswers;
     }
+
+
 
 }
 

@@ -2,9 +2,8 @@ package com.dao;
 
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 public interface Dao<T> {
 
@@ -12,7 +11,7 @@ public interface Dao<T> {
 
     List<T> getAll();
 
-    void save(T t);
+    void persist(T t);
 
     void update(T t);
 

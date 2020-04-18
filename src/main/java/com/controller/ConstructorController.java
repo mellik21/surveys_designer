@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -32,12 +31,15 @@ public class ConstructorController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView dashboard(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
 
         User user = (User) httpSession.getAttribute("user");
-        List<Questionnaire> questionnaires = userService.getQuesionnaireList(user.getId());
+        List<Questionnaire> questionnaires = userService.getQuestionnaireList(user.getId());
+
+        System.out.println(questionnaires.size());
 
         if (questionnaires.isEmpty()) {
             System.out.println("No questionnaires for " + user.getLogin() + "\n");
@@ -108,7 +110,7 @@ public class ConstructorController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView loadPageEdit(@ModelAttribute("q") int questionnaireId, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println(questionnaireId);
+
         modelAndView.setViewName("editing");
         Questionnaire questionnaire = questionnaireService.get(questionnaireId);
         Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
@@ -128,16 +130,16 @@ public class ConstructorController {
         User user = (User) httpSession.getAttribute("user");
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
-
         Map<Question, List<Answer>> map = form.getMap();
+
         int id = (int)httpSession.getAttribute("questionnaire");
-        System.out.println(id);
 
         Questionnaire questionnaire = questionnaireService.get(id);
         questionnaire.setDescription(form.getDescription());
         questionnaire.setTitle(form.getTitle());
         questionnaire.setSize(map.keySet().size());
-        questionnaireService.edit(questionnaire,map);
+
+        questionnaireService.update(questionnaire,map);
         modelAndView.setViewName("redirect:/dashboard");
         httpSession.removeAttribute("questionnaire");
         return modelAndView;

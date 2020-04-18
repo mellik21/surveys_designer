@@ -1,15 +1,17 @@
 package com.dao;
 
-import com.entities.*;
+import com.entities.Answer;
+import com.entities.Question;
+import com.entities.Questionnaire;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Repository
 public class QuestionnaireDao implements Dao<Questionnaire>{
@@ -23,8 +25,8 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
 
 
     public List<Questionnaire> getAll() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Questionnaire ").list();
+        return (List<Questionnaire>) sessionFactory.openSession().createQuery("From Questionnaire").list();
+
     }
 
 
@@ -53,8 +55,7 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
 
 
     public Questionnaire get(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(Questionnaire.class, id);
+        return sessionFactory.openSession().get(Questionnaire.class, id);
     }
 
 
@@ -64,38 +65,21 @@ public class QuestionnaireDao implements Dao<Questionnaire>{
         return (List<Question>) query.list();
     }
 
-/*
-    public void edit(Questionnaire questionnaire, Map<Question,List<Answer>> map ) {
-        Session session = sessionFactory.getCurrentSession();
-        int id = questionnaire.getId();
-
-
-        for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
-            Question question = entry.getKey();
-            System.out.println("Q:"+question.toString());
-            List<Answer> answers = entry.getValue();
-            question.setQuestionnaire_id(questionnaire.getId());
-            int questionId = (int) session.save(question); //question saving
-            session.saveOrUpdate(question);
-            for (Answer answer : answers) {
-                System.out.println("A:"+answer.toString());
-                answer.setQuestion_id(questionId);
-                session.saveOrUpdate(answer);
-            }
-        }
-    }*/
-
     public void update(Questionnaire questionnaire){
-        Session session = sessionFactory.getCurrentSession();
-        Questionnaire existing = session.find(Questionnaire.class,questionnaire.getId());
-        if(existing!=null){
-            existing.merge(questionnaire);
-        }
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(questionnaire);
+        tx1.commit();
+        session.close();
     }
 
     @Override
-    public void save(Questionnaire questionnaire) {
-
+    public void persist(Questionnaire questionnaire) {
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(questionnaire);
+        tx1.commit();
+        session.close();
     }
 
 }

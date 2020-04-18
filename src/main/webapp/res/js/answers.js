@@ -305,7 +305,7 @@ function deleteQuestion(index) {
     }
 }
 
-function addHidden() { // format : question text / type / answers
+function addHidden() { // format : question text / type / answers / id
     var block = document.getElementById("questions");
 
     let head = document.getElementById("title").value + "/" + document.getElementById("description").value;
@@ -314,7 +314,6 @@ function addHidden() { // format : question text / type / answers
     element.setAttribute("name", "questionInformation");
     element.setAttribute("value", head);
     block.appendChild(element);
-    alert(head);
 
     var questionNames = document.getElementsByClassName("questionName");
     var i;
@@ -331,13 +330,23 @@ function addHidden() { // format : question text / type / answers
         if (type.options[type.selectedIndex].value > 1) {
             let answers = document.getElementsByClassName("answer" + i);
             var j;
-            for (j = 0; j < answers.length; j++) {
+            for (j = 0; j < answers.length+1; j++) {
                 code += "/" + answers[j].value;
             }
         }
+        alert("AAAAAAAAAAAAAAAAAAAAAAA");
+        let id = document.getElementById("questionId"+i);
+        alert("questionID"+i+" = "+id.value);
+        if(id){
+            code+="/"+id.value;
+        }else {
+            code+="/"+"-1";
+        }
+
+
         element.setAttribute("value", code);
         element.setAttribute("name", "questionInformation");
-        alert(code);
+
         block.appendChild(element);
     }
 }

@@ -21,14 +21,6 @@ public class Question {
     private int questionnaire_id;
     @Column(name="number")
     private int number;
-
-    @ManyToOne
-    @JoinColumn(name="questionnaire_id",insertable = false, updatable = false)
-    private Questionnaire questionnaire;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question_id", orphanRemoval = true)
-    private List<Answer> answers = new ArrayList<>();
     
     public Question() {
     }

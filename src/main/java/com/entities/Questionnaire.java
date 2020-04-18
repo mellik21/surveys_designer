@@ -22,9 +22,6 @@ public class Questionnaire {
     private String description;
     private int numberOfAnswers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionnaire", orphanRemoval = true)
-    private List<Question> questions = new ArrayList<>();
-
     public Questionnaire() {
 
     }

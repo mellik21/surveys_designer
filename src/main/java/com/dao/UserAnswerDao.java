@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UserAnswerDao implements Dao<UserAnswer> {
@@ -26,14 +25,14 @@ public class UserAnswerDao implements Dao<UserAnswer> {
 
     @Override
     public List<UserAnswer> getAll() {
-        return sessionFactory.openSession().createQuery("From UserAnswer").list();
+        return (List<UserAnswer>) sessionFactory.openSession().createQuery("FROM UserAnswer").getResultList();
     }
 
     @Override
-    public void save(UserAnswer userAnswer) {
+    public void persist(UserAnswer userAnswer) {
         Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
-        session.save(userAnswer);
+        session.persist(userAnswer);
         tx1.commit();
         session.close();
     }
@@ -59,6 +58,6 @@ public class UserAnswerDao implements Dao<UserAnswer> {
     public List<UserAnswer> getUserAnswers(int questionnaireId){
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where questionnaire_id = " + questionnaireId).addEntity(UserAnswer.class);
-        return query.getResultList();
+        return (List<UserAnswer>)query.getResultList();
     }
 }

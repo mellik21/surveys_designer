@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class QuestionDao implements Dao<Question> {
@@ -23,7 +22,7 @@ public class QuestionDao implements Dao<Question> {
     @Override
     public Question get(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Question.class, id);
+        return session.get(Question.class, id );
 
     }
 
@@ -34,17 +33,21 @@ public class QuestionDao implements Dao<Question> {
     }
 
     @Override
-    public void save(Question question) {
-
+    public void persist(Question question) {
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(question);
+        tx1.commit();
+        session.close();
     }
 
     @Override
     public void update(Question question) {
-        Session session = sessionFactory.getCurrentSession();
-        Question existing = session.find(Question.class, question.getId());
-        if (existing != null) {
-            existing.merge(question);
-        }
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(question);
+        tx1.commit();
+        session.close();
     }
 
 

@@ -29,15 +29,14 @@ public class AuthorizationController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ModelAndView authenticate(HttpSession httpSession, @ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println(user.getLogin()+" "+user.getId());
-        int id = userService.findUser(user);
+
+        int id = userService.find(user);
+
         if(id == -1){
-            System.out.println("NO SUCH USER SORRY");
             modelAndView.setViewName("redirect:/authentication");
         }else{
             user.setId(id);
             httpSession.setAttribute("user",user);
-            System.out.println("USER DETECTED");
             modelAndView.setViewName("redirect:/dashboard");
         }
         return modelAndView;
@@ -50,17 +49,11 @@ public class AuthorizationController {
         return modelAndView;
     }
 
-    //todo добавить проверку логина в регистрации
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registration(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-
-        if(user.getPassword()!=null) {
-            user.setId(userService.add(user));
-            modelAndView.setViewName("redirect:/");
-        }else{
-            modelAndView.setViewName("redirect:/registration");
-        }
+        //todo усложнить добавление при регистрации
+        userService.add(user);
         return modelAndView;
     }
 

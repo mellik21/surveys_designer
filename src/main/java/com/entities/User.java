@@ -1,8 +1,6 @@
 package com.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "surveys")

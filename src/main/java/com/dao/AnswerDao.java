@@ -5,12 +5,10 @@ import com.entities.Question;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class AnswerDao implements Dao<Answer> {
@@ -32,7 +30,7 @@ public class AnswerDao implements Dao<Answer> {
     }
 
     @Override
-    public void save(Answer answer) {
+    public void persist(Answer answer) {
         Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(answer);
@@ -44,6 +42,7 @@ public class AnswerDao implements Dao<Answer> {
     public void update(Answer answer) {
         Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
+        System.out.println("ID ID ID ID ID:"+answer.getId());
         session.update(answer);
         tx1.commit();
         session.close();
