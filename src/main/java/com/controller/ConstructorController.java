@@ -141,6 +141,7 @@ public class ConstructorController {
         questionnaire.setSize(map.keySet().size());
 
         questionnaireService.update(questionnaire,map);
+
         modelAndView.setViewName("redirect:/dashboard");
         httpSession.removeAttribute("questionnaire");
         return modelAndView;

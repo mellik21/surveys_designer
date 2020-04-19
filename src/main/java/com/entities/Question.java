@@ -23,8 +23,11 @@ public class Question {
     @Column(name="number")
     private int number;
 
-    @OneToMany(mappedBy="question")
+    @OneToMany(mappedBy="question",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
+
+    @OneToMany(mappedBy="question",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserAnswer> userAnswers;
 
 
     @ManyToOne

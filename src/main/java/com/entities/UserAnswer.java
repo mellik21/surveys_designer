@@ -24,6 +24,7 @@ public class UserAnswer {
     @JoinColumn(name="question_id",insertable = false, updatable = false)
     private Question question;
 
+
     public UserAnswer() {
     }
 

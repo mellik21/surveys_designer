@@ -1,10 +1,9 @@
 package com.dao;
 
 import com.entities.UserAnswer;
-import com.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Repository
 public class UserAnswerDao implements Dao<UserAnswer> {
-  
+
     private SessionFactory sessionFactory;
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -33,28 +32,19 @@ public class UserAnswerDao implements Dao<UserAnswer> {
     @Override
     public void persist(UserAnswer userAnswer) {
         Session session = sessionFactory.getCurrentSession();
-        Transaction tx1 = session.beginTransaction();
         session.persist(userAnswer);
-        tx1.commit();
-        session.close();
     }
 
     @Override
     public void update(UserAnswer userAnswer) {
         Session session = sessionFactory.getCurrentSession();
-        Transaction t = session.beginTransaction();
         session.update(userAnswer);
-        t.commit();
-        session.close();
     }
 
     @Override
     public void delete(UserAnswer userAnswer) {
         Session session = sessionFactory.getCurrentSession();
-        Transaction tx1 = session.beginTransaction();
         session.delete(userAnswer);
-        tx1.commit();
-        session.close();
     }
 
     public List<UserAnswer> getUserAnswers(int questionnaireId){

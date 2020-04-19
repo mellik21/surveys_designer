@@ -1,10 +1,8 @@
 package com.dao;
 import com.entities.Questionnaire;
 import com.entities.User;
-import com.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -68,7 +66,7 @@ public class UserDao implements Dao<User>{
     }
 
     public List<Questionnaire> getQuestionnaireList(int id) {
-        Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Questionnaire q where q.user_id= :user_id");
         query.setParameter("user_id", id);
         return (List<Questionnaire>)query.getResultList();

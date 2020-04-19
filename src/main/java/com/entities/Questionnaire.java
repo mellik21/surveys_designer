@@ -23,7 +23,7 @@ public class Questionnaire {
     private String description;
     private int numberOfAnswers;
 
-    @OneToMany(mappedBy="questionnaire")
+    @OneToMany(mappedBy="questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Question> questions;
 
 

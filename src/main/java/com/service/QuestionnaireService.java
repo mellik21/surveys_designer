@@ -6,6 +6,8 @@ import com.entities.Answer;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import com.entities.UserAnswer;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.hibernate.ReplicationMode;
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
@@ -45,21 +47,37 @@ public class QuestionnaireService {
     @Transactional
     public void update(Questionnaire questionnaire, Map<Question,List<Answer>> map) {
        //todo вместо обновления все удаляется и записывается заново! Потому что нет question ID и answer ID. Json решит эту проблему
-        questionnaireDao.update(questionnaire);
+        System.out.println("Delete questionnaire");
 
-        Map<Question,List<Answer>> existing = getMap(questionnaire.getId());
-        for(Map.Entry<Question,List<Answer>> entry : existing.entrySet()) {
-            Question question = entry.getKey();
-            questionDao.delete(question);
+        questionnaireDao.delete(questionnaire);
+
+        System.out.println("Add questionnaire");
+       int newId = questionnaireDao.save(questionnaire);
+        List<UserAnswer> userAnswers = userAnswerDao.getUserAnswers(questionnaire.getId());
+        for(UserAnswer userAnswer: userAnswers){
+            userAnswer.setQuestionnaire_id(newId);
         }
+
+
 
         for(Map.Entry<Question,List<Answer>> entry : map.entrySet()){
             Question question = entry.getKey();
-            questionDao.persist(question);
+            question.setQuestionnaire_id(newId);
+            System.out.println("Save Question");
+            int questionId =  questionDao.save(question);
+
+
+
+
             for(Answer answer : entry.getValue()){
+                System.out.println("Persist Answer");
+                answer.setQuestion_id(questionId);
                 answerDao.persist(answer);
             }
+
+
         }
+
     }
 
     @Transactional

@@ -2,10 +2,8 @@ package com.dao;
 
 import com.entities.Answer;
 import com.entities.Question;
-import com.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -57,14 +55,14 @@ public class QuestionDao implements Dao<Question> {
 
     @Override
     public void delete(Question question) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
 
         session.delete(question);
 
     }
 
     public List<Answer> getAnswers(Question question) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session =sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery("SELECT * FROM SURVEYS.ANSWER where question_id = " + question.getId()).addEntity(Answer.class);
         return (List<Answer>) query.list();
     }
