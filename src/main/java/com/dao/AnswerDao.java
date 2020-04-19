@@ -31,30 +31,21 @@ public class AnswerDao implements Dao<Answer> {
 
     @Override
     public void persist(Answer answer) {
-        Session session = sessionFactory.openSession();
-        Transaction tx1 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.save(answer);
-        tx1.commit();
-        session.close();
     }
 
     @Override
     public void update(Answer answer) {
-        Session session = sessionFactory.openSession();
-        Transaction tx1 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         System.out.println("ID ID ID ID ID:"+answer.getId());
         session.update(answer);
-        tx1.commit();
-        session.close();
     }
 
     @Override
     public void delete(Answer answer) {
-        Session session = sessionFactory.openSession();
-        Transaction tx1 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.delete(answer);
-        tx1.commit();
-        session.close();
     }
 
 

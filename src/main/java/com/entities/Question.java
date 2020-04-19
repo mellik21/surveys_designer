@@ -3,6 +3,7 @@ package com.entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "question", schema = "surveys")
@@ -21,7 +22,15 @@ public class Question {
     private int questionnaire_id;
     @Column(name="number")
     private int number;
-    
+
+    @OneToMany(mappedBy="question")
+    private Set<Answer> answers;
+
+
+    @ManyToOne
+    @JoinColumn(name="questionnaire_id", nullable=false, insertable = false, updatable = false)
+    private Questionnaire questionnaire;
+
     public Question() {
     }
 

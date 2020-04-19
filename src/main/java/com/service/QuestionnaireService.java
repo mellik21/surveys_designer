@@ -6,6 +6,7 @@ import com.entities.Answer;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import com.entities.UserAnswer;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,13 +36,6 @@ public class QuestionnaireService {
         return questionnaireDao.getAll();
     }
 
-
-    @Transactional
-    public void add(Questionnaire questionnaire, Map<Question, List<Answer>> map) {
-        questionnaireDao.add(questionnaire, map);
-    }
-
-
     @Transactional
     public void delete(int id) {
         Questionnaire questionnaire = questionnaireDao.get(id);
@@ -50,17 +44,20 @@ public class QuestionnaireService {
 
     @Transactional
     public void update(Questionnaire questionnaire, Map<Question,List<Answer>> map) {
-        System.out.println("UPDATE");
+       //todo вместо обновления все удаляется и записывается заново! Потому что нет question ID и answer ID. Json решит эту проблему
         questionnaireDao.update(questionnaire);
+
+        Map<Question,List<Answer>> existing = getMap(questionnaire.getId());
+        for(Map.Entry<Question,List<Answer>> entry : existing.entrySet()) {
+            Question question = entry.getKey();
+            questionDao.delete(question);
+        }
+
         for(Map.Entry<Question,List<Answer>> entry : map.entrySet()){
             Question question = entry.getKey();
-            if(question.getId()!=-1) {
-                questionDao.update(question);
-            }else {
-                questionDao.persist(question);
-            }
+            questionDao.persist(question);
             for(Answer answer : entry.getValue()){
-                answerDao.update(answer);
+                answerDao.persist(answer);
             }
         }
     }
@@ -129,7 +126,21 @@ public class QuestionnaireService {
         return numberOfAnswers;
     }
 
+    @Transactional
+    public void add(Questionnaire questionnaire, Map<Question, List<Answer>> map) {
+        int questionnaireId = questionnaireDao.save(questionnaire);//questionnaire saving
 
+        for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
+            Question question = entry.getKey();
+            List<Answer> answers = entry.getValue();
+            question.setQuestionnaire_id(questionnaireId);
+            int questionId = questionDao.save(question); //question saving
+            for (Answer answer : answers) {
+                answer.setQuestion_id(questionId);
+                answerDao.persist(answer);//answer saving
+            }
+        }
+    }
 
 }
 

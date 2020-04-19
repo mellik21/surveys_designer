@@ -114,11 +114,12 @@ public class ConstructorController {
         modelAndView.setViewName("editing");
         Questionnaire questionnaire = questionnaireService.get(questionnaireId);
         Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
+        User user = (User) httpSession.getAttribute("user");
 
         modelAndView.addObject("map", map);
         modelAndView.addObject("questionnaire",questionnaire);
         modelAndView.addObject("id",questionnaireId);
-
+        modelAndView.addObject("username",user.getLogin());
         httpSession.setAttribute("questionnaire",questionnaireId);
         return modelAndView;
     }

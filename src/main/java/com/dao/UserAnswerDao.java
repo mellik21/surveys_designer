@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.entities.UserAnswer;
+import com.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Repository
 public class UserAnswerDao implements Dao<UserAnswer> {
+  
     private SessionFactory sessionFactory;
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -20,17 +22,17 @@ public class UserAnswerDao implements Dao<UserAnswer> {
 
     @Override
     public UserAnswer get(int id) {
-        return sessionFactory.openSession().get(UserAnswer.class, id);
+        return sessionFactory.getCurrentSession().get(UserAnswer.class, id);
     }
 
     @Override
     public List<UserAnswer> getAll() {
-        return (List<UserAnswer>) sessionFactory.openSession().createQuery("FROM UserAnswer").getResultList();
+        return (List<UserAnswer>) sessionFactory.getCurrentSession().createQuery("FROM UserAnswer").getResultList();
     }
 
     @Override
     public void persist(UserAnswer userAnswer) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction tx1 = session.beginTransaction();
         session.persist(userAnswer);
         tx1.commit();
@@ -39,7 +41,7 @@ public class UserAnswerDao implements Dao<UserAnswer> {
 
     @Override
     public void update(UserAnswer userAnswer) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction t = session.beginTransaction();
         session.update(userAnswer);
         t.commit();
@@ -48,7 +50,7 @@ public class UserAnswerDao implements Dao<UserAnswer> {
 
     @Override
     public void delete(UserAnswer userAnswer) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction tx1 = session.beginTransaction();
         session.delete(userAnswer);
         tx1.commit();
