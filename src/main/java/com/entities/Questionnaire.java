@@ -26,7 +26,9 @@ public class Questionnaire {
     @OneToMany(mappedBy="questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Question> questions;
 
-
+    @OneToMany(mappedBy="questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserAnswer> userAnswers;
+ 
 
     public Questionnaire() {
 

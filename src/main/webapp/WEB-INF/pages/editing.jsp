@@ -120,8 +120,7 @@
                     <br>
                     <i class="handle" aria-hidden="true"></i>
                     <h5 style="margin: 10px">Вопрос</h5>
-                   <hidden id="questionId<%=i%> " value=" ${pair.getKey().id} " ></hidden>
-
+                    <input type="hidden" name="questionInformation" value="QID/${pair.getKey().id}">
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -169,16 +168,18 @@
                         <input type="text" id="name-question" class="form-control questionName"
                                aria-label="Text input with checkbox"
                                value="${pair.getKey().name}">
+
                     </div>
                 </div>
                 <br>
 
                 <div id="answers<%=i%>">
                     <h5 style="margin:10px" id="answerHeader<%=i%>">Ответы</h5>
+
                     <div id="answersZone<%=i%>">
 
                         <c:forEach items="${pair.getValue()}" var="answer">
-
+                            <input type="hidden" name="questionInformation" value="AID/${answer.id}">
                             <div class=" form-row" id="row<%=j%>">
                                 <div class="col">
                                     <input type="text" id="ans<%=j%>" class="form-control answer<%=j%>"

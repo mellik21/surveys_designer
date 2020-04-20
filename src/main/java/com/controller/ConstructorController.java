@@ -129,6 +129,11 @@ public class ConstructorController {
 
         ModelAndView modelAndView = new ModelAndView();
         User user = (User) httpSession.getAttribute("user");
+        System.out.println();
+        for(String s : questions){
+            System.out.println(s);
+        }
+        System.out.println();
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
         Map<Question, List<Answer>> map = form.getMap();

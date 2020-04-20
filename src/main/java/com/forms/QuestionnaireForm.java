@@ -11,26 +11,55 @@ public class QuestionnaireForm {
     private Map<Question, List<Answer>> map = new HashMap<>();
 
     public QuestionnaireForm(String[] questions, int userId) {
-        String[]header = questions[0].split("/");
-        this.title = header[0];
-        this.description = header[1];
-        System.out.println("title = "+title+'\n' +"descr = "+description+'\n');
+        ArrayList<Integer> ids = new ArrayList();
+        ArrayList<Integer> answerIds = new ArrayList<>();
+
+        int counter=0;
+        int aCounter=0;
+        int index=0;
+        boolean header = false;
+
         Map<Question, List<Answer>> newMap = new HashMap<>();
-        for (int i = 1; i < questions.length;i++) {
+        for(int i=0;i<questions.length;i++){
+            String[]current = questions[i].split("/");
 
-            List<Answer> answerList = new ArrayList<>();
-            Question q = new Question();
-            String[] finalArray = questions[i].split("/");
-            q.setName(finalArray[0]);
-            q.setType(finalArray[1]);
+            if(current[0].equals("QID")){
+                ids.add(Integer.parseInt(current[1]));
+                counter++;
+            }else if(current[0].equals("AID")){
+                answerIds.add(Integer.parseInt(current[1]));
+                aCounter++;
+            }else if(!header){
+                this.title = current[0];
+                this.description = current[1];
+                header = true;
+            }else{
+                List<Answer> answerList = new ArrayList<>();
+                Question q = new Question();
+                int id;
+                if(i<=counter*2) {
+                   id = ids.get(i-counter-1);
+                }else{
+                    id=-1;
+                }
+                q.setId(id);
+                q.setName(current[0]);
+                q.setType(current[1]);
 
-            for (int j = 2; j < finalArray.length; j++) {
-                Answer answer = new Answer();
-                answer.setName(finalArray[j]);
-                answerList.add(answer);
+                for (int j = 2; j < current.length; j++) {
+                    Answer answer = new Answer();
+                    if(index<=answerIds.size()) {
+                        answer.setId(answerIds.get(index));
+                        index++;
+                    }
+                    answer.setQuestion_id(q.getId());
+                    answer.setName(current[j]);
+                    answerList.add(answer);
+                }
+                q.setSize(current.length - 2);
+                newMap.put(q, answerList);
             }
-            q.setSize(finalArray.length - 2);
-            newMap.put(q, answerList);
+
         }
         map = newMap;
     }

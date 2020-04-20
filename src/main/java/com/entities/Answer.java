@@ -59,4 +59,8 @@ public class Answer {
     public void setNumber(int number) {
         this.number = number;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

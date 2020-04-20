@@ -66,4 +66,5 @@ public class QuestionDao implements Dao<Question> {
         Query query = session.createSQLQuery("SELECT * FROM SURVEYS.ANSWER where question_id = " + question.getId()).addEntity(Answer.class);
         return (List<Answer>) query.list();
     }
+
 }

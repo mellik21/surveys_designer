@@ -48,6 +48,13 @@ public class AnswerDao implements Dao<Answer> {
         session.delete(answer);
     }
 
+    public void save(Answer answer) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(answer);
+    }
 
-
+    public void saveOrUpdate(Answer answer) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(answer);
+    }
 }
