@@ -1,8 +1,6 @@
 package com.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +17,7 @@ public class Question {
     @Column(name = "size")
     private int size;
     @Column(name="questionnaire_id")
-    private int questionnaire_id;
+    private int questionnaireId;
     @Column(name="number")
     private int number;
 
@@ -77,12 +75,12 @@ public class Question {
         this.size = size;
     }
 
-    public int getQuestionnaire_id() {
-        return questionnaire_id;
+    public int getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setQuestionnaire_id(int questionnaire_id) {
-        this.questionnaire_id = questionnaire_id;
+    public void setQuestionnaireId(int questionnaire_id) {
+        this.questionnaireId = questionnaire_id;
     }
 
     @Override
@@ -99,13 +97,6 @@ public class Question {
 
     public void setNumber(int number) {
         this.number = number;
-    }
-
-    public void merge(Question other){
-        setName(other.name);
-        setNumber(other.number);
-        setQuestionnaire_id(other.questionnaire_id);
-        setType(other.type);
     }
 
 

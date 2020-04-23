@@ -6,9 +6,6 @@ import com.entities.Answer;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import com.entities.UserAnswer;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import org.hibernate.ReplicationMode;
-import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,13 +50,15 @@ public class QuestionnaireService {
         System.out.println("\n DELETE questionnaire \n");
         questionnaireDao.delete(questionnaire);
 
+        add(questionnaire,map);
+/*
         System.out.println("\n SAVE questionnaire \n");
         int id = questionnaireDao.save(questionnaire);
 
 
         for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
             Question question = entry.getKey();
-            question.setQuestionnaire_id(id);
+            question.setQuestionnaireId(id);
             System.out.println("\n SAVE Question"+question.getId()+" "+ question.getName()+"\n");
             int questionId;
 
@@ -70,7 +69,7 @@ public class QuestionnaireService {
                 System.out.println("\n UPDATE useranswer \n");
                 List<UserAnswer>userAnswers = userAnswerDao.getByQuestion(questionId);
                 for(UserAnswer userAnswer : userAnswers){
-                    userAnswer.setQuestion_id(questionId);
+                    userAnswer.setQuestionId(questionId);
                     userAnswerDao.update(userAnswer);
                 }
             }else{
@@ -80,10 +79,10 @@ public class QuestionnaireService {
 
             for (Answer answer : entry.getValue()) {
                 System.out.println(" \n ADD answer \n");
-                answer.setQuestion_id(questionId);
+                answer.setQuestionId(questionId);
                 answerDao.saveOrUpdate(answer);
             }
-        }
+        }*/
     }
 
     @Transactional
@@ -114,7 +113,7 @@ public class QuestionnaireService {
         if (!userAnswers.isEmpty()) {
             for (UserAnswer userAnswer : userAnswers) {
                 UserAnswersForm answer = new UserAnswersForm();
-                answer.setQuestion(questionDao.get(userAnswer.getQuestion_id()).getName());
+                answer.setQuestion(questionDao.get(userAnswer.getQuestionId()).getName());
                 answer.setQuestionnaireTitle(questionnaireDao.get(questionnaireId).getTitle());
                 answer.setValue(userAnswer.getValue());
                 userAnswersFormList.add(answer);
@@ -125,14 +124,8 @@ public class QuestionnaireService {
 
     @Transactional
     public List<Question> getQuestions(int questionnaireId) {
-        List<Question> result = new ArrayList<>();
-        List questions = questionnaireDao.getQuestions(questionnaireId);
 
-        for (Object object : questions) {
-            Question question = (Question) object;
-            result.add(question);
-        }
-        return result;
+        return  questionnaireDao.getQuestions(questionnaireId);
     }
 
     @Transactional
@@ -157,10 +150,10 @@ public class QuestionnaireService {
         for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
             Question question = entry.getKey();
             List<Answer> answers = entry.getValue();
-            question.setQuestionnaire_id(questionnaireId);
+            question.setQuestionnaireId(questionnaireId);
             int questionId = questionDao.save(question); //question saving
             for (Answer answer : answers) {
-                answer.setQuestion_id(questionId);
+                answer.setQuestionId(questionId);
                 answerDao.persist(answer);//answer saving
             }
         }

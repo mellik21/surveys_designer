@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 <head>
@@ -6,13 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link href="<c:url value="/res/img/v6.png"/>" rel="icon" type="image/png"/>
-    <!--===============================================================================================-->
     <link href="<c:url value="/res/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
     <!--===============================================================================================-->
     <link href="<c:url value="/res/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css"/>
-    <!--===============================================================================================-->
-    <link href="<c:url value="/res/css/animate.css"/>" rel="stylesheet" type="text/css"/>
     <!--===============================================================================================-->
     <link href="<c:url value="/res/css/hamburgers.min.css"/>" rel="stylesheet" type="text/css"/>
     <!--===============================================================================================-->
@@ -39,11 +35,6 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-
-            <div class="login100-pic js-tilt" data-tilt>
-                <img src="res/img/img-01.png" alt="IMG">
-            </div>
-
             <form class="login100-form validate-form" name="user" method="post">
 					<span class="login100-form-title">
 						Registration

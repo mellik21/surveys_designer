@@ -11,7 +11,7 @@ public class Answer {
     @Column(name = "name")
     private String  name;
     @Column(name = "question_id")
-    private int question_id;
+    private int questionId;
     @Column(name="number")
     private int number;
 
@@ -25,7 +25,7 @@ public class Answer {
     public Answer(String name, int question_id, int number) {
         super();
         this.name=name;
-        this.question_id=question_id;
+        this.questionId =question_id;
         this.number=number;
     }
     public int getId(){
@@ -39,17 +39,17 @@ public class Answer {
         this.name = name;
     }
 
-    public int getQuestion_id() {
-        return question_id;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion_id(int question_id) {
-        this.question_id = question_id;
+    public void setQuestionId(int question_id) {
+        this.questionId = question_id;
     }
 
     @Override
     public String toString(){
-        return id+" "+name+" "+question_id;
+        return id+" "+name+" "+ questionId;
     }
 
     public int getNumber() {

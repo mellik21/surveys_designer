@@ -6,10 +6,6 @@ public class UserAnswersForm {
     private String question;
     private String value;
 
-    public UserAnswersForm(){
-
-    }
-
     public String getUsername() {
         return username;
     }

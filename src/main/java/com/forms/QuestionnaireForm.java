@@ -8,14 +8,13 @@ import java.util.*;
 public class QuestionnaireForm {
     private String title;
     private String description;
-    private Map<Question, List<Answer>> map = new HashMap<>();
+    private Map<Question, List<Answer>> map;
 
-    public QuestionnaireForm(String[] questions, int userId) {
-        ArrayList<Integer> ids = new ArrayList();
-        ArrayList<Integer> answerIds = new ArrayList<>();
+    public QuestionnaireForm(String[] questions) {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<Integer> answerIds = new ArrayList<Integer>();
 
         int counter=0;
-        int aCounter=0;
         int index=0;
         boolean header = false;
 
@@ -28,7 +27,6 @@ public class QuestionnaireForm {
                 counter++;
             }else if(current[0].equals("AID")){
                 answerIds.add(Integer.parseInt(current[1]));
-                aCounter++;
             }else if(!header){
                 this.title = current[0];
                 this.description = current[1];
@@ -52,7 +50,7 @@ public class QuestionnaireForm {
                         answer.setId(answerIds.get(index));
                         index++;
                     }
-                    answer.setQuestion_id(q.getId());
+                    answer.setQuestionId(q.getId());
                     answer.setName(current[j]);
                     answerList.add(answer);
                 }

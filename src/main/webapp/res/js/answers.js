@@ -1,18 +1,26 @@
 var counter = 0;
 var question = 0;
 
-function addAnswerBlockF() {
-    addAnswerBlock(0);
+
+function deleteHeader(index) {
+    var element = document.getElementById("answersHeader" + index);
+    if (element) {
+
+        element.parentNode.removeChild(element);
+    }
 }
 
-function addAnswerBlock(index) {
-    let e = document.getElementById("inputGroupSelect" + index);
-    if (e.options.selectedIndex > 1) {
-        createAnswer(index);
-    } else {
-        //  counter = 0;
-        deleteAll(index);
-    }
+function addHeader(index) {
+    let block = document.getElementById("answers" + index);
+    deleteHeader(index);
+
+    let h = document.createElement("h5");
+    h.setAttribute("style", "margin: 10px");
+    h.textContent = "Ответы";
+    h.setAttribute("id", "answersHeader" + index);
+    block.appendChild(h);
+
+    h.append(document.createElement("br"));
 }
 
 function createAnswer(index) {
@@ -37,30 +45,26 @@ function createAnswer(index) {
     }
 }
 
-function addHeader(index) {
-    let block = document.getElementById("answers" + index);
-    deleteHeader(index);
+function addDeleteIcon(prev) {
+    let deleteIcon = document.createElement("a");
+    deleteIcon.setAttribute("class", "btn-light");
+    deleteIcon.setAttribute("href", "#");
+    deleteIcon.setAttribute("onclick", "deleteAnswer(" + counter + ")");
+    deleteIcon.textContent = "х";
+    prev.appendChild(deleteIcon);
 
-    let h = document.createElement("h5");
-    h.setAttribute("style", "margin: 10px");
-    h.textContent = "Ответы";
-    h.setAttribute("id", "answersHeader" + index);
-    block.appendChild(h);
+}
 
-    h.append(document.createElement("br"));
+function addButton(index) {
+    let block = document.getElementById("answersZone" + index);
+    let button = document.createElement("button");
+    button.setAttribute("class", "btn btn-light");
+    button.setAttribute("type", "button");
+    button.setAttribute("onclick", "addAnswer(" + index + ")");
+    button.setAttribute("id", "button" + index);
 
-    /*
-    let check = document.createElement("input");
-    check.setAttribute("class", "form-check-input");
-    check.setAttribute("id", "check" + index);
-    check.setAttribute("type", "checkbox");
-    h.append(check);
-
-    let label = document.createElement("label");
-    label.setAttribute("class", "form-check-label");
-    label.setAttribute("for", "check" + index);
-    label.textContent = "Перемешивать ответы";
-    h.append(label);*/
+    button.textContent = " + Ответ";
+    block.appendChild(button);
 }
 
 function addBlock(index) {
@@ -93,14 +97,6 @@ function addBlock(index) {
     block.append(row);
 
     addButton(index);
-}
-
-function deleteHeader(index) {
-    var element = document.getElementById("answersHeader" + index);
-    if (element) {
-
-        element.parentNode.removeChild(element);
-    }
 }
 
 function deleteAll(index) {
@@ -150,17 +146,7 @@ function addAnswer(index) {
     addButton(index);
 }
 
-function addButton(index) {
-    let block = document.getElementById("answersZone" + index);
-    let button = document.createElement("button");
-    button.setAttribute("class", "btn btn-light");
-    button.setAttribute("type", "button");
-    button.setAttribute("onclick", "addAnswer(" + index + ")");
-    button.setAttribute("id", "button" + index);
 
-    button.textContent = " + Ответ";
-    block.appendChild(button);
-}
 
 function deleteButton(index) {
     var element = document.getElementById("button" + index);
@@ -169,15 +155,6 @@ function deleteButton(index) {
     }
 }
 
-function addDeleteIcon(prev) {
-    let deleteIcon = document.createElement("a");
-    deleteIcon.setAttribute("class", "btn-light");
-    deleteIcon.setAttribute("href", "#");
-    deleteIcon.setAttribute("onclick", "deleteAnswer(" + counter + ")");
-    deleteIcon.textContent = "х";
-    prev.appendChild(deleteIcon);
-
-}
 
 function addUpAndDownButtons(node) {
     let upButton = document.createElement("a");
@@ -371,4 +348,18 @@ function testGrammar() {
     if (document.getElementById("description").value === "") {
         alert("OH NO WRONG DESCRIPTION");
     }
+}
+
+function addAnswerBlock(index) {
+    let e = document.getElementById("inputGroupSelect" + index);
+    if (e.options.selectedIndex > 1) {
+        createAnswer(index);
+    } else {
+        //  counter = 0;
+        deleteAll(index);
+    }
+}
+
+function addAnswerBlockF() {
+    addAnswerBlock(0);
 }

@@ -42,14 +42,4 @@ public class User {
 
     public User() {
     }
-
-    public User(String login, String password) {
-        super();
-        this.login = login;
-        this.password = password;
-    }
-
-    public boolean is_equal(User user) {
-        return (login.equals(user.getLogin()) && password.equals(user.getPassword()));
-    }
 }
