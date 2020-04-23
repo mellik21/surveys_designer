@@ -16,9 +16,6 @@ public class UserAnswer {
     @Column(name = "questionnaire_id")
     private int questionnaire_id;
 
-    @ManyToOne
-    @JoinColumn(name="questionnaire_id",insertable = false, updatable = false)
-    private Questionnaire questionnaire;
 
     @ManyToOne
     @JoinColumn(name="question_id",insertable = false, updatable = false)
@@ -33,7 +30,6 @@ public class UserAnswer {
         this.value=value;
         this.question_id=question_id;
         this.questionnaire_id = questionnaire_id;
-
     }
 
 

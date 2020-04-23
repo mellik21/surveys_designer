@@ -133,6 +133,7 @@ function addCheckbox(id) {
 }
 
 function f(countQuestion,questionName) {
+    alert(questionName);
     let hiddenQuestion = document.createElement("input");
     hiddenQuestion.type="hidden";
     hiddenQuestion.setAttribute("name","questionInformation");

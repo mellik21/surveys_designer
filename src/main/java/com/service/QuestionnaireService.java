@@ -46,27 +46,40 @@ public class QuestionnaireService {
 
     @Transactional
     public void update(Questionnaire questionnaire, Map<Question, List<Answer>> map) {
-        //todo вместо обновления все удаляется и записывается заново! Потому что нет question ID и answer ID. Json решит эту проблему
-        System.out.println("Delete questionnaire");
-
+        /*
+        Невозможно понять какие вопросы и ответы были удалены а какие нет
+        На всякий случай удаляем все вопросы и ответы и добавляем заново
+         */
+        System.out.println("\n DELETE questionnaire \n");
         questionnaireDao.delete(questionnaire);
-        System.out.println("Save questionnaire");
-        int newId = questionnaireDao.save(questionnaire);
+
+        System.out.println("\n SAVE questionnaire \n");
+        int id = questionnaireDao.save(questionnaire);
+
 
         for (Map.Entry<Question, List<Answer>> entry : map.entrySet()) {
             Question question = entry.getKey();
-            question.setQuestionnaire_id(newId);
-            System.out.println("Save Question"+question.getId()+" "+ question.getName());
+            question.setQuestionnaire_id(id);
+            System.out.println("\n SAVE Question"+question.getId()+" "+ question.getName()+"\n");
             int questionId;
+
             if(question.getId()!=-1){
-                questionId = question.getId();
-                questionDao.update(question);
+                System.out.println("\n SAVE question \n");
+                questionId = questionDao.save(question);
+
+                System.out.println("\n UPDATE useranswer \n");
+                List<UserAnswer>userAnswers = userAnswerDao.getByQuestion(questionId);
+                for(UserAnswer userAnswer : userAnswers){
+                    userAnswer.setQuestion_id(questionId);
+                    userAnswerDao.update(userAnswer);
+                }
             }else{
+                System.out.println("\n ADD question \n");
                 questionId = questionDao.save(question);
             }
 
             for (Answer answer : entry.getValue()) {
-                System.out.println("Persist Answer");
+                System.out.println(" \n ADD answer \n");
                 answer.setQuestion_id(questionId);
                 answerDao.saveOrUpdate(answer);
             }

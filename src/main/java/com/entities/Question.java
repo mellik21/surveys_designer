@@ -23,10 +23,10 @@ public class Question {
     @Column(name="number")
     private int number;
 
-    @OneToMany(mappedBy="question",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="question",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Answer> answers;
 
-    @OneToMany(mappedBy="question",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="question",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<UserAnswer> userAnswers;
 
 

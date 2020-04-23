@@ -282,7 +282,7 @@ function addQuestionContainer() {
     question1.setAttribute("type", "text");
     question1.setAttribute("id", "name-question");
     question1.setAttribute("class", "form-control questionName");
-    question1.value = "";
+    question1.setAttribute("value","");
     qName.appendChild(question1);
 
     container.appendChild(document.createElement("br"));
@@ -290,7 +290,7 @@ function addQuestionContainer() {
     let a = document.createElement("button");
     a.setAttribute("class", "btn btn-light");
     a.setAttribute("style", "position: relative; float:right; top:100%; margin-top:-20px;");
-    a.setAttribute("id", "deleteQuestionButton0");
+    a.setAttribute("id", "deleteQuestionButton" + question);
     a.setAttribute("onclick", "deleteQuestion(" + question + ")");
     a.textContent = "Удалить вопрос";
 
@@ -315,9 +315,9 @@ function addHidden() { // format : question text / type / answers / id
     element.setAttribute("value", head);
     block.appendChild(element);
 
-    var questionNames = document.getElementsByClassName("questionName");
-    var i;
-
+    let questionNames = document.getElementsByClassName("questionName");
+    let i;
+    alert(questionNames.length);
     for (i = 0; i < questionNames.length; i++) {
         let type = document.getElementById("inputGroupSelect" + i);
 
@@ -330,23 +330,20 @@ function addHidden() { // format : question text / type / answers / id
         if (type.options[type.selectedIndex].value > 1) {
             let answers = document.getElementsByClassName("answer" + i);
             var j;
-            for (j = 0; j < answers.length+1; j++) {
+            for (j = 0; j < answers.length + 1; j++) {
                 code += "/" + answers[j].value;
             }
         }
-        alert("AAAAAAAAAAAAAAAAAAAAAAA");
-        let id = document.getElementById("questionId"+i);
-        alert("questionID"+i+" = "+id.value);
-        if(id){
-            code+="/"+id.value;
-        }else {
-            code+="/"+"-1";
+
+        let id = document.getElementById("questionId" + i);
+        if (id) {
+            code += "/" + id.value;
+        } else {
+            code += "/" + "-1";
         }
-
-
+        alert(code);
         element.setAttribute("value", code);
         element.setAttribute("name", "questionInformation");
-
         block.appendChild(element);
     }
 }

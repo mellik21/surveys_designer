@@ -35,7 +35,7 @@ public class QuestionDao implements Dao<Question> {
     @Override
     public void persist(Question question) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(question);
+        session.persist(question);
 
     }
 
@@ -65,6 +65,11 @@ public class QuestionDao implements Dao<Question> {
         Session session =sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery("SELECT * FROM SURVEYS.ANSWER where question_id = " + question.getId()).addEntity(Answer.class);
         return (List<Answer>) query.list();
+    }
+
+    public void merge(Question question){
+        Session session =sessionFactory.getCurrentSession();
+        session.merge(question);
     }
 
 }

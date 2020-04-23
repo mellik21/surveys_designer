@@ -52,4 +52,9 @@ public class UserAnswerDao implements Dao<UserAnswer> {
         Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where questionnaire_id = " + questionnaireId).addEntity(UserAnswer.class);
         return (List<UserAnswer>)query.getResultList();
     }
+    public List<UserAnswer> getByQuestion(int questionId){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where question_id = " + questionId).addEntity(UserAnswer.class);
+        return (List<UserAnswer>)query.getResultList();
+    }
 }
