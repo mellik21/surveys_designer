@@ -43,7 +43,11 @@ public class QuestionnaireService {
 
     @Transactional
     public Questionnaire get(int id) {
-        return questionnaireDao.get(id);
+        Questionnaire questionnaire = questionnaireDao.get(id);
+        for(Question question : questionnaire.getQuestions()){
+            question.getAnswers().iterator();
+        }
+        return questionnaire;
     }
 
     @Transactional

@@ -83,8 +83,6 @@
     </nav>
 </header>
 
-
-<!-- Begin page content -->
 <main role="main" class="flex-shrink-0" id="main">
 
     <div class="container">
@@ -258,7 +256,7 @@
     </c:forEach>
     </div>
     <div id="questions">
-        <hidden> ${result}</hidden>
+       <input type="hidden"value=" ${result}">
     </div>
 
     <br>

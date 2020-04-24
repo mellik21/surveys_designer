@@ -280,7 +280,7 @@ function deleteQuestion(index) {
 }
 
 function addHidden() { // format : question text / type / answers / id
-    var block = document.getElementById("questions");
+    let block = document.getElementById("questions");
 
     let head = document.getElementById("title").value + "/" + document.getElementById("description").value;
     let element = document.createElement("input");
@@ -289,23 +289,24 @@ function addHidden() { // format : question text / type / answers / id
     element.setAttribute("value", head);
     block.appendChild(element);
 
-    let questionNames = document.getElementsByClassName("questionName");
-    let i;
-    alert(questionNames.length);
+    var questionNames = document.getElementsByClassName("questionName");
+    var i;
+
     for (i = 0; i < questionNames.length; i++) {
         let type = document.getElementById("inputGroupSelect" + i);
 
         let element = document.createElement("input");
         element.setAttribute("type", "hidden");
 
-        let code = questionNames[i].value;
+        var code = questionNames[i].value;
         code += "/" + type.options[type.selectedIndex].value;
 
         if (type.options[type.selectedIndex].value > 1) {
             let answers = document.getElementsByClassName("answer" + i);
-            var j;
+            let j;
             for (j = 0; j < answers.length + 1; j++) {
                 let id = document.getElementById("answerId"+i+"/"+j);
+                code += "/"+id;
                 code += "/" + answers[j].value;
             }
         }

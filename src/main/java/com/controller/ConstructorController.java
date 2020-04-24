@@ -113,6 +113,8 @@ public class ConstructorController {
 
         Questionnaire questionnaire = questionnaireService.get(questionnaireId);
 
+        System.out.println("||||"+questionnaire.toString());
+
         modelAndView.addObject("questionnaire", questionnaire);
         modelAndView.addObject("id", questionnaireId);
         modelAndView.addObject("username", user.getLogin());
@@ -134,10 +136,8 @@ public class ConstructorController {
 
         QuestionnaireForm form = new QuestionnaireForm(questions, user.getId());
         Questionnaire questionnaire = form.getQuestionnaire();
-
         int id = (int) httpSession.getAttribute("questionnaire");
         questionnaire.setId(id);
-
 
 
         questionnaireService.update(questionnaire);
