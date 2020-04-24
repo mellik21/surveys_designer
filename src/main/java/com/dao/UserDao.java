@@ -67,8 +67,8 @@ public class UserDao implements Dao<User>{
 
     public List<Questionnaire> getQuestionnaireList(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Questionnaire q where q.user_id= :user_id");
-        query.setParameter("user_id", id);
+        Query query = session.createQuery("FROM Questionnaire q where q.userId= :id");
+        query.setParameter("id", id);
         return (List<Questionnaire>)query.getResultList();
     }
 }

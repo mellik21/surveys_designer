@@ -1,6 +1,7 @@
 package com.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,12 +22,11 @@ public class Question {
     @Column(name="number")
     private int number;
 
-    @OneToMany(mappedBy="question",cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<Answer> answers;
+    @OneToMany(mappedBy="question", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Answer> answers;
 
     @OneToMany(mappedBy="question",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<UserAnswer> userAnswers;
-
 
     @ManyToOne
     @JoinColumn(name="questionnaire_id", nullable=false, insertable = false, updatable = false)
@@ -99,5 +99,11 @@ public class Question {
         this.number = number;
     }
 
+    public List<Answer> getAnswers() {
+        return answers;
+    }
 
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
 }

@@ -50,7 +50,8 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
 
     public List<Question> getQuestions(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.QUESTION where questionnaire_id = " + id).addEntity(Question.class);
+        Query query = session.createQuery("FROM Question where questionnaireId = : id");
+        query.setParameter("id",id);
         return (List<Question>) query.list();
     }
 

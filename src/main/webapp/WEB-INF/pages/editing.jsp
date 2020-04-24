@@ -114,14 +114,14 @@
             <div id="containers" class="containerBlock">
                 <% int i = 0; %>
                 <% int j = 0; %>
-                <c:forEach items="${map.entrySet()}" var="pair">
+                <c:forEach items="${questionnaire.questions}" var="question">
                 <div class="container"
                      style="background-color: #FFFFFF; margin-outside: 10px; margin-inside: 10px; margin-top:20px; border-radius: 10px;"
                      id="container<%=i%>">
                     <br>
                     <i class="handle" aria-hidden="true"></i>
                     <h5 style="margin: 10px">Вопрос</h5>
-                    <input type="hidden" name="questionInformation" value="QID/${pair.getKey().id}">
+                    <input type="hidden"  id="questionId<%=i%>" value="QID/${question.id}">
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -130,7 +130,7 @@
                         <select class="custom-select" id="inputGroupSelect<%=i%>" onchange="addAnswerBlock(<%=i%>)">
                             <option value="0">Choose...</option>
                             <c:choose>
-                            <c:when test="${pair.getKey().type == 1}">
+                            <c:when test="${question.type == 1}">
                             <option selected value="1">Текстовый</option>
                             <option value="2">Один из многих</option>
                             <option value="3">Многие из многих</option>
@@ -142,7 +142,7 @@
                             <label for="name-question">Название вопроса</label>
                             <input type="text" id="name-question" class="form-control questionName "
                                    aria-label="Text input with checkbox"
-                                   value="${pair.getKey().name}">
+                                   value="${question.name}">
 
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                     <br>
                     </c:when>
 
-                    <c:when test="${pair.getKey().type == 2}">
+                    <c:when test="${question.type == 2}">
                     <option value="1">Текстовый</option>
                     <option selected value="2">Один из многих</option>
                     <option value="3">Многие из многих</option>
@@ -168,7 +168,7 @@
                         <label for="name-question">Название вопроса</label>
                         <input type="text" id="name-question" class="form-control questionName"
                                aria-label="Text input with checkbox"
-                               value="${pair.getKey().name}">
+                               value="${question.name}">
 
                     </div>
                 </div>
@@ -179,11 +179,11 @@
 
                     <div id="answersZone<%=i%>">
 
-                        <c:forEach items="${pair.getValue()}" var="answer">
-                            <input type="hidden" name="questionInformation" value="AID/${answer.id}">
+                        <c:forEach items="${question.answers}" var="answer">
+                            <input type="hidden" id ="answerId<%=i%>/<%=j%>>" value="AID/${answer.id}">
                             <div class=" form-row" id="row<%=j%>">
                                 <div class="col">
-                                    <input type="text" id="ans<%=j%>" class="form-control answer<%=j%>"
+                                    <input type="text" id="ans<%=j%>" class="form-control answer<%=i%>"
                                            value="${answer.name}">
                                 </div>
                                 <div class="col">
@@ -218,7 +218,7 @@
                     <label for="name-question">Название вопроса</label>
                     <input type="text" id="name-question" class="form-control questionName"
                            aria-label="Text input with checkbox"
-                           value="${pair.getKey().name}">
+                           value="${question.name}">
                 </div>
             </div>
             <br>
@@ -227,7 +227,7 @@
                 <h5 style="margin:10px" id="answerHeader<%=i%>">Ответы</h5>
                 <div id="answersZone<%=i%>">
 
-                    <c:forEach items="${pair.getValue()}" var="answer">
+                    <c:forEach items="${question.answers}" var="answer">
 
                         <div class=" form-row" id="row<%=j%>">
                             <div class="col">
@@ -258,7 +258,7 @@
     </c:forEach>
     </div>
     <div id="questions">
-        <hidden> ${questions}</hidden>
+        <hidden> ${result}</hidden>
     </div>
 
     <br>

@@ -47,14 +47,16 @@ public class UserAnswerDao implements Dao<UserAnswer> {
         session.delete(userAnswer);
     }
 
-    public List<UserAnswer> getUserAnswers(int questionnaireId){
+    public List<UserAnswer> getUserAnswers(int id){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where questionnaire_id = " + questionnaireId).addEntity(UserAnswer.class);
+        Query query = session.createQuery("FROM UserAnswer where questionnaireId = : questionnaireId");
+        query.setParameter("questionnaireId", id);
         return (List<UserAnswer>)query.getResultList();
     }
-    public List<UserAnswer> getByQuestion(int questionId){
+    public List<UserAnswer> getByQuestion(int id){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.USERANSWER where question_id = " + questionId).addEntity(UserAnswer.class);
+        Query query = session.createQuery("FROM UserAnswer where questionId = : questionId");
+        query.setParameter("questionId", id);
         return (List<UserAnswer>)query.getResultList();
     }
 }

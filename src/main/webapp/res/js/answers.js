@@ -146,15 +146,12 @@ function addAnswer(index) {
     addButton(index);
 }
 
-
-
 function deleteButton(index) {
     var element = document.getElementById("button" + index);
     if (element) {
         element.parentNode.removeChild(element);
     }
 }
-
 
 function addUpAndDownButtons(node) {
     let upButton = document.createElement("a");
@@ -308,6 +305,7 @@ function addHidden() { // format : question text / type / answers / id
             let answers = document.getElementsByClassName("answer" + i);
             var j;
             for (j = 0; j < answers.length + 1; j++) {
+                let id = document.getElementById("answerId"+i+"/"+j);
                 code += "/" + answers[j].value;
             }
         }
@@ -324,7 +322,6 @@ function addHidden() { // format : question text / type / answers / id
         block.appendChild(element);
     }
 }
-
 
 /* //todo testGrammar
   Тип должен быть !=0

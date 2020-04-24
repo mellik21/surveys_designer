@@ -10,13 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 public class ViewerController {
     private QuestionnaireService questionnaireService;
 
@@ -32,10 +33,7 @@ public class ViewerController {
 
         Questionnaire questionnaire = questionnaireService.get(questionnaireId);
 
-        Map<Question, List<Answer>> map = questionnaireService.getMap(questionnaireId);
-        modelAndView.addObject("map", map);
-        modelAndView.addObject("title", questionnaire.getTitle());
-        modelAndView.addObject("description", questionnaire.getDescription());
+        modelAndView.addObject("questionnaire", questionnaire);
         return modelAndView;
     }
 

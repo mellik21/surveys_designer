@@ -1,6 +1,7 @@
 package com.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,8 +22,8 @@ public class Questionnaire {
     private String description;
     private int numberOfAnswers;
 
-    @OneToMany(mappedBy="questionnaire", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<Question> questions;
+    @OneToMany(mappedBy="questionnaire", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Question> questions;
 
 
     public Questionnaire() {
@@ -87,6 +88,14 @@ public class Questionnaire {
 
     @Override
     public String toString() {
-        return id + " " + title + " " + userId;
+        return id + " " + title + " " + userId+" "+questions.toString();
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }

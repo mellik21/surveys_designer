@@ -56,14 +56,14 @@ public class QuestionDao implements Dao<Question> {
     @Override
     public void delete(Question question) {
         Session session = sessionFactory.getCurrentSession();
-
         session.delete(question);
 
     }
 
     public List<Answer> getAnswers(Question question) {
         Session session =sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.ANSWER where question_id = " + question.getId()).addEntity(Answer.class);
+        Query query = session.createQuery("FROM Answer where questionId = : questionId");
+                query.setParameter("questionId",question.getId());
         return (List<Answer>) query.list();
     }
 

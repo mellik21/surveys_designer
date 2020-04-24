@@ -25,23 +25,23 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <div class="login100-form-title">${title}</div>
-            <div class="login100-form-title">${description}</div>
+            <div class="login100-form-title">${questionnaire.title}</div>
+            <div class="login100-form-title">${questionnaire.description}</div>
             <form method="post" id="formId">
                 <div class="questions" style="margin-left: 10%">
                     <% int i = 0; %>
-                    <c:forEach items="${map.entrySet()}" var="pair">
-                        <p><label for="answer">${pair.getKey().name}</label></p>
+                    <c:forEach items="${questionnaire.questions}" var="question">
+                        <p><label for="answer">${question.name}</label></p>
 
-                        <c:forEach items="${pair.getValue()}" var="answer">
-                            <c:if test="${pair.getKey().type == 2}">
+                        <c:forEach items="${question.answers}" var="answer">
+                            <c:if test="${question.type == 2}">
                                 <p><input type="radio" id="answer" name="answer_<%=i%>">${answer.name}</p>
                             </c:if>
-                            <c:if test="${pair.getKey().type == 3}">
+                            <c:if test="${question.type == 3}">
                                 <p><input type="checkbox" id="answer" name="answer_<%=i%>">${answer.name}</p>
                             </c:if>
                         </c:forEach>
-                        <c:if test="${pair.getKey().type == 1}">
+                        <c:if test="${question.type == 1}">
                             <input class="input100" type="text" name=<%=i%> class="input100">
                         </c:if>
                         <% i = i + 1; %>

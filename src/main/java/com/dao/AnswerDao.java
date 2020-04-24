@@ -36,7 +36,6 @@ public class AnswerDao implements Dao<Answer> {
     @Override
     public void update(Answer answer) {
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("ID ID ID ID ID:"+answer.getId());
         session.update(answer);
     }
 
