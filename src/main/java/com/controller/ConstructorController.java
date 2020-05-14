@@ -1,7 +1,5 @@
 package com.controller;
 
-import com.entities.Answer;
-import com.entities.Question;
 import com.entities.Questionnaire;
 import com.forms.CreatingForm;
 import com.forms.QuestionnaireForm;
@@ -9,16 +7,10 @@ import com.entities.User;
 import com.service.QuestionnaireService;
 import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -146,5 +138,20 @@ public class ConstructorController {
         httpSession.removeAttribute("questionnaire");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/questionnaireList",method = RequestMethod.GET)
+    public ModelAndView allQuestionnaires(HttpSession httpSession) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        List<Questionnaire> questionnaires = questionnaireService.getAll();
+
+        modelAndView.setViewName("list");
+        modelAndView.addObject("questionnairesList", questionnaires);
+
+        return modelAndView;
+    }
+
+
+
 
 }

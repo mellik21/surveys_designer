@@ -33,6 +33,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="color: #000000">Просмотр ответов</a>
                 </li>
+                <li class="nav-item">
+                <a class="nav-link" href="<c:url value="/questionnaireList"/>" style="color: #000000">Просмотр опросов</a>
+            </li>
             </ul>
 
             <a class="btn btn-primary" href="/designer/create_form" role="button">Новый опрос</a>

@@ -54,9 +54,11 @@ public class QuestionnaireForm {
 
                 for (int j = 2; j < current.length; j++) {
                     Answer answer = new Answer();
-                    if(index<=answerIds.size()) {
+                    if(index<=answerIds.size() && answerIds.size()>0) {
                         answer.setId(answerIds.get(index));
                         index++;
+                    }else if(answerIds.size()==0){
+                        answer.setId(-1);
                     }
                     answer.setQuestionId(q.getId());
                     answer.setName(current[j]);

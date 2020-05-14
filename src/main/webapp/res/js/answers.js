@@ -176,7 +176,8 @@ function deleteAnswer(index) {
     }
 }
 
-function addQuestionContainer() {
+function addQuestionContainer(num) {
+    question = num;
     question++;
     let containers = document.getElementById("containers");
 
@@ -256,7 +257,7 @@ function addQuestionContainer() {
     question1.setAttribute("type", "text");
     question1.setAttribute("id", "name-question");
     question1.setAttribute("class", "form-control questionName");
-    question1.setAttribute("value","");
+    question1.setAttribute("value", "");
     qName.appendChild(question1);
 
     container.appendChild(document.createElement("br"));
@@ -283,6 +284,7 @@ function addHidden() { // format : question text / type / answers / id
     let block = document.getElementById("questions");
 
     let head = document.getElementById("title").value + "/" + document.getElementById("description").value;
+
     let element = document.createElement("input");
     element.setAttribute("type", "hidden");
     element.setAttribute("name", "questionInformation");
@@ -290,12 +292,13 @@ function addHidden() { // format : question text / type / answers / id
     block.appendChild(element);
 
     var questionNames = document.getElementsByClassName("questionName");
+    alert(questionNames.length);
     var i;
 
     for (i = 0; i < questionNames.length; i++) {
-        let type = document.getElementById("inputGroupSelect" + i);
+        var type = document.getElementById("inputGroupSelect" + i);
 
-        let element = document.createElement("input");
+        var el = document.createElement("input");
         element.setAttribute("type", "hidden");
 
         var code = questionNames[i].value;
@@ -305,8 +308,8 @@ function addHidden() { // format : question text / type / answers / id
             let answers = document.getElementsByClassName("answer" + i);
             let j;
             for (j = 0; j < answers.length + 1; j++) {
-                let id = document.getElementById("answerId"+i+"/"+j);
-                code += "/"+id;
+                let id = document.getElementById("answerId" + i + "/" + j);
+                code += "/" + id;
                 code += "/" + answers[j].value;
             }
         }
@@ -318,9 +321,9 @@ function addHidden() { // format : question text / type / answers / id
             code += "/" + "-1";
         }
         alert(code);
-        element.setAttribute("value", code);
-        element.setAttribute("name", "questionInformation");
-        block.appendChild(element);
+        el.setAttribute("value", code);
+        el.setAttribute("name", "questionInformation");
+        block.appendChild(el);
     }
 }
 
@@ -360,4 +363,9 @@ function addAnswerBlock(index) {
 
 function addAnswerBlockF() {
     addAnswerBlock(0);
+}
+
+function setQuestionNumber(num) {
+    alert(num);
+    question = num;
 }

@@ -24,6 +24,13 @@
     <script src="res/js/answers.js"></script>
     <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://snipp.ru/cdn/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        function funonload() {
+           setQuestionNumber(${questionnaire.size});
+        }
+        window.onload = funonload;
+    </script>
+
     <style type="text/css">
         .containerBlock {
             list-style-type: none;
@@ -260,7 +267,7 @@
     </div>
 
     <br>
-    <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="addQuestionContainer()"><i
+    <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="addQuestionContainer(<%=i%>)"><i
             class="fa fa-plus" aria-hidden="true"></i>
         Добавить вопрос
     </button>

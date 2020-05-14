@@ -34,7 +34,7 @@ public class AuthorizationController {
         int id = userService.find(user);
 
         if(id == -1){
-            modelAndView.setViewName("redirect:/authentication");
+            modelAndView.setViewName("redirect:/");
         }else{
             user.setId(id);
             httpSession.setAttribute("user",user);

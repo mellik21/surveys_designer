@@ -23,7 +23,7 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
 
 
     public List<Questionnaire> getAll() {
-        return (List<Questionnaire>) sessionFactory.getCurrentSession().createQuery("From Questionnaire").list();
+        return (List<Questionnaire>) sessionFactory.openSession().createQuery("From Questionnaire").list();
 
     }
 
@@ -56,7 +56,7 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
     }
 
     public void update(Questionnaire questionnaire) {
-        Session session =sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.update(questionnaire);
 
     }

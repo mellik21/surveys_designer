@@ -9,10 +9,7 @@ import com.entities.UserAnswer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class QuestionnaireService {
@@ -32,7 +29,13 @@ public class QuestionnaireService {
 
     @Transactional
     public List<Questionnaire> getAll() {
-        return questionnaireDao.getAll();
+        List<Questionnaire>questionnaires = questionnaireDao.getAll();
+        for (Questionnaire questionnaire:questionnaires) {
+            for(Question question : questionnaire.getQuestions()){
+                question.getAnswers().iterator();
+            }
+        }
+        return questionnaires;
     }
 
     @Transactional
@@ -108,5 +111,17 @@ public class QuestionnaireService {
 
     }
 
+    public String getUniqueLinkName(){
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder sb = new StringBuilder(40);
+        Random random = new Random();
+        for (int i = 0; i < 40; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String output = sb.toString();
+        System.out.println(output);
+        return output;
+    }
 }
 
