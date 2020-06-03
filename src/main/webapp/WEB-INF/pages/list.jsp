@@ -51,6 +51,14 @@
 
     <h2>Общий список опросов</h2>
 
+    <label for="find">
+        Найти опрос:
+    </label>
+    <p><input type="text" class="form-control" id="find" name="search">
+
+        <a class="btn btn-success" href="/designer/search">Найти</a>
+    </p>
+
     <c:forEach var="questionnaire" items="${questionnairesList}">
         <div class="container" style="background:#FFFFFF; margin-top: 20px">
             <h4><a href="<c:url value="/view?questionnaireId=${questionnaire.id}"/>"

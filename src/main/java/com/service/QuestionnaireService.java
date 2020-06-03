@@ -111,6 +111,13 @@ public class QuestionnaireService {
 
     }
 
+    @Transactional
+    public List<Questionnaire> search(String searchQuery){
+        return questionnaireDao.search(searchQuery);
+    }
+
+
+
     public String getUniqueLinkName(){
         char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
         StringBuilder sb = new StringBuilder(40);

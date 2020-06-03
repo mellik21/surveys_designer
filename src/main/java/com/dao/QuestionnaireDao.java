@@ -39,10 +39,11 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
         return (int) session.save(questionnaire);
     }
 
-    public void merge(Questionnaire questionnaire){
+    public void merge(Questionnaire questionnaire) {
         Session session = sessionFactory.getCurrentSession();
         session.merge(questionnaire);
     }
+
     public Questionnaire get(int id) {
         return sessionFactory.getCurrentSession().get(Questionnaire.class, id);
     }
@@ -51,7 +52,7 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
     public List<Question> getQuestions(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Question where questionnaireId = : id");
-        query.setParameter("id",id);
+        query.setParameter("id", id);
         return (List<Question>) query.list();
     }
 
@@ -68,9 +69,16 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
 
     }
 
-    public void replicate(Questionnaire questionnaire, ReplicationMode replicationMode){
+    public void replicate(Questionnaire questionnaire, ReplicationMode replicationMode) {
         Session session = sessionFactory.getCurrentSession();
-        session.replicate(questionnaire,replicationMode);
+        session.replicate(questionnaire, replicationMode);
+    }
+
+    public List<Questionnaire> search(String searchQuesry) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.QUESTIONNAIRE where SELECT POSITION ('"+searchQuesry+"' in TITLE ) >0 ");
+        System.out.println("НАШЛОСЬ :" +query.list().size());
+        return (List<Questionnaire>) query.list();
     }
 
 }

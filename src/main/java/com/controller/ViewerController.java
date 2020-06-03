@@ -7,10 +7,7 @@ import com.entities.Questionnaire;
 import com.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -56,6 +53,17 @@ public class ViewerController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView search(@RequestParam ("search") String searchQuery) {
+        ModelAndView modelAndView = new ModelAndView();
+
+
+        modelAndView.setViewName("list");
+        List<Questionnaire> questionnaireList = questionnaireService.search(searchQuery);
+
+        modelAndView.addObject("questionnaireList", questionnaireList);
+        return modelAndView;
+    }
 
 
 
