@@ -9,6 +9,7 @@ import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -105,7 +106,7 @@ public class ConstructorController {
 
         Questionnaire questionnaire = questionnaireService.get(questionnaireId);
 
-        System.out.println("||||"+questionnaire.toString());
+        System.out.println("||||" + questionnaire.toString());
 
         modelAndView.addObject("questionnaire", questionnaire);
         modelAndView.addObject("id", questionnaireId);
@@ -139,8 +140,9 @@ public class ConstructorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/questionnaireList",method = RequestMethod.GET)
+    @RequestMapping(value = "/questionnaireList", method = RequestMethod.GET)
     public ModelAndView allQuestionnaires(HttpSession httpSession) {
+
         ModelAndView modelAndView = new ModelAndView();
 
         List<Questionnaire> questionnaires = questionnaireService.getAll();
@@ -150,8 +152,6 @@ public class ConstructorController {
 
         return modelAndView;
     }
-
-
 
 
 }

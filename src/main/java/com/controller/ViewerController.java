@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -53,18 +54,18 @@ public class ViewerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView search(@RequestParam ("search") String searchQuery) {
+    @RequestMapping(value = "/questionnaireList", method = RequestMethod.POST)
+    public ModelAndView allQuestionnaires(@RequestParam ("search") String searchQuery) {
         ModelAndView modelAndView = new ModelAndView();
-
-
         modelAndView.setViewName("list");
         List<Questionnaire> questionnaireList = questionnaireService.search(searchQuery);
 
-        modelAndView.addObject("questionnaireList", questionnaireList);
+        for(Questionnaire questionnaire : questionnaireList){
+            System.out.println("ВЫВОДИМ : "+questionnaire.toString());
+        }
+
+        modelAndView.addObject("questionnairesList", questionnaireList);
         return modelAndView;
     }
-
-
 
 }

@@ -113,7 +113,13 @@ public class QuestionnaireService {
 
     @Transactional
     public List<Questionnaire> search(String searchQuery){
-        return questionnaireDao.search(searchQuery);
+       List<Questionnaire> result = questionnaireDao.search(searchQuery);
+       for(Questionnaire questionnaire : result) {
+           for(Question question : questionnaire.getQuestions()){
+               question.getAnswers().iterator();
+           }
+       }
+       return result;
     }
 
 

@@ -35,6 +35,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="color: #000000">Просмотр ответов</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/questionnaireList"/>" style="color: #000000">Просмотр опросов</a>
+                </li>
             </ul>
 
             <a class="btn btn-primary" href="/designer/create_form" role="button">Новый опрос</a>
@@ -50,14 +54,14 @@
     <br> <br> <br>
 
     <h2>Общий список опросов</h2>
-
-    <label for="find">
-        Найти опрос:
-    </label>
-    <p><input type="text" class="form-control" id="find" name="search">
-
-        <a class="btn btn-success" href="/designer/search">Найти</a>
+    <form method="post">
+        <label for="find">
+            Найти опрос:
+        </label>
+    <p style="margin-left:50px ; margin-right: 50px"><input type="text" class="form-control" id="find" name="search">
+        <button type="submit" class="btn btn-default"> Найти </button>
     </p>
+    </form>
 
     <c:forEach var="questionnaire" items="${questionnairesList}">
         <div class="container" style="background:#FFFFFF; margin-top: 20px">

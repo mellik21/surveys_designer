@@ -3,17 +3,19 @@ package com.dao;
 import com.entities.Question;
 import com.entities.Questionnaire;
 import org.hibernate.ReplicationMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Repository
 public class QuestionnaireDao implements Dao<Questionnaire> {
-
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -74,11 +76,32 @@ public class QuestionnaireDao implements Dao<Questionnaire> {
         session.replicate(questionnaire, replicationMode);
     }
 
+    /*
+        public List search(String searchQuesry) {
+            Session session = sessionFactory.getCurrentSession();
+
+            SQLQuery query = session.createSQLQuery("FROM SURVEYS.QUESTIONNAIRE where SELECT POSITION ('" + searchQuesry + "' in TITLE ) >0 ");
+            List<Object[]> rows = query.list();
+            for (Object[] row : rows) {
+                Questionnaire q = new Questionnaire();
+                q.setId(Integer.parseInt(row[0].toString()));
+                q.setUserId(Integer.parseInt(row[1].toString()));
+                q.setSize(Integer.parseInt(row[2].toString()));
+                q.setDescription(row[3].toString());
+                q.setNumberOfAnswers(Integer.parseInt(row[4].toString()));
+                q.setQuestions((List<Question>) row[5]);
+            }
+
+            System.out.println("НАШЛОСЬ :" + query.list().size());
+            return query.list();
+        }*/
+
     public List<Questionnaire> search(String searchQuesry) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("SELECT * FROM SURVEYS.QUESTIONNAIRE where SELECT POSITION ('"+searchQuesry+"' in TITLE ) >0 ");
-        System.out.println("НАШЛОСЬ :" +query.list().size());
-        return (List<Questionnaire>) query.list();
+
+        Query query = session.createQuery("FROM Questionnaire where title like :title");
+        query.setParameter("title", "%" + searchQuesry + "%");
+       return query.list();
     }
 
 }
